@@ -21,12 +21,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import com.skydoves.lazybones.On
 import com.skydoves.lazybones.lifecycleAware
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.internal.util.NotificationLite.disposable
 
 class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
-
-  private val property = lifecycleOwner.lifecycleAware(CompositeDisposable())
 
   private val TAG = MainViewModel::class.java.simpleName
   private val lifecycleAwareProperty = lifecycleOwner.lifecycleAware(Rabbit())
@@ -41,7 +37,5 @@ class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
       .observeOnDestroy { Log.d(TAG, "OnDestroy: $it") }
       .observeOnAny { }
       .observeOn(On.CREATE) { }
-
-    property.value.dispose()
   }
 }
