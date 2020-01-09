@@ -88,7 +88,11 @@ private val lifecycleAwareProperty = lifecycleAware(CompositeDisposable())
     // observe lifecycle's state and call the dispose() method when onDestroy  
     .observeOnDestroy { it.dispose() }
 ```
-
+And we can access the original property via the `value` field.
+```kotlin
+lifecycleAwareProperty.value.add(disposable)
+lifecycleAwareProperty.value.dispose()
+```
 
 We can observe the lifecycle changes using `observe_` method.<br>
 ```kotlin
