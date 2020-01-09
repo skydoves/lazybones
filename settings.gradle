@@ -1,0 +1,2 @@
+include ':app', ':lazybones'
+rootProject.name='LazybonesDemo'
