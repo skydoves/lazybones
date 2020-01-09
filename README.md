@@ -16,6 +16,7 @@
 </p>
 
 ## Including in your project
+[![Download](https://api.bintray.com/packages/devmagician/maven/lazybones/images/download.svg) ](https://bintray.com/devmagician/maven/lazybones/_latestVersion)
 [![Jitpack](https://jitpack.io/v/skydoves/Lazybones.svg)](https://jitpack.io/#skydoves/Lazybones)
 ### Gradle 
 Add below codes to your **root** `build.gradle` file (not your module build.gradle file).
