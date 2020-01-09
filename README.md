@@ -3,6 +3,7 @@
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
   <a href="https://android-arsenal.com/api?level=15"><img alt="API" src="https://img.shields.io/badge/API-15%2B-brightgreen.svg?style=flat"/></a>
+  <a href="https://travis-ci.com/skydoves/Lazybones"><img alt="Build Status" src="https://travis-ci.com/skydoves/Lazybones.svg?branch=master"/></a>
 </p>
 
 <p align="center">
@@ -34,6 +35,7 @@ dependencies {
 ### lifecycleAware
 We can initialize a lifecycle-aware object lazily using the `lifecycleAware` keyword. <br>
 The `lifecycleAware` functionality can be used to register & dismiss listeners or clear <br>something and dispose of disposable objects by lifecycle owner(Activity, Fragment)'s lifecycle state.<br>
+If we want initialize lazily we should we with `by` keyword and  `lazy()` method lastly. 
 ```kotlin
 private val myDialog: Dialog by lifecycleAware { getDarkThemeDialog(baseContext) }
     .onCreate { it.show() } // show the dialog when the lifecycle's state is onCreate.
@@ -74,8 +76,9 @@ class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
 ```
 
 ### LifecycleAwareProperty
-If we don't need to initialize lazily, here is the more simple way.<br>
-We can declare a lifecycle-aware property using the `lifecycleAware` keyword.<br> The attribute value will not be initialized lazily. And it will returns a `LifecycleAwareProperty`.
+If we don't need to initialize lazily, here is a more simple way.<br>
+We can declare a lifecycle-aware property using the `lifecycleAware` keyword.<br> The attribute value will not be initialized lazily so we don't need to use it with `by` keyword.<br>
+And it will returns a `LifecycleAwareProperty`.
 ```kotlin
 private val lifecycleAwareProperty = lifecycleAware(CompositeDisposable())
     // observe the lifecycle's state is onDestroy, and call the dispose() method when onDestroy  
