@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/24237865/72087678-38b2e280-334c-11ea-9ce5-f1e3049fddba.png" width="734" height="251"/>
+<img src="https://user-images.githubusercontent.com/24237865/72173497-0cb26280-341b-11ea-8d0a-5a000773600f.png" width="734" height="251"/>
 </p>
 
 > <p align="center">Ah... I'm a super lazy person. <br>I just want to initialize and declare of disposing it at the same time. </p>
@@ -32,28 +32,37 @@ allprojects {
 And add a dependency code to your **module**'s `build.gradle` file.
 ```gradle
 dependencies {
-    implementation "com.github.skydoves:lazybones:1.0.0"
+    implementation "com.github.skydoves:lazybones:1.0.1"
 }
 ```
 
 ## Usage
 ### lifecycleAware
 We can initialize a lifecycle-aware object lazily using the `lifecycleAware` keyword. <br>
-The `lifecycleAware` functionality can be used to register & unregister listeners, clear <br>something, show & dismiss and dispose of disposable objects as lifecycle changes by lifecycle owner(Activity, Fragment).<br>
+The `lifecycleAware` functionality can be used to register & unregister listeners, clear something,<br>show & dismiss and dispose of disposable objects as lifecycle changes by lifecycle owner(Activity, Fragment).<br>
 If we want to initialize an object lazily, we should use it with `by` keyword and  `lazy()` method.
 ```kotlin
 val myDialog: Dialog by lifecycleAware { getDarkThemeDialog(baseContext) }
-    .onCreate { it.show() } // show the dialog when the lifecycle's state is onCreate.
-    .onDestroy { it.dismiss() } // dismiss the dialog when the lifecycle's state is onDestroy.
+    .onCreate { this.show() } // show the dialog when the lifecycle's state is onCreate.
+    .onDestroy { this.dismiss() } // dismiss the dialog when the lifecycle's state is onDestroy.
+    .lazy() // initlize the dialog lazily.
+```
+In the `onCreate` and `onDestroy` lambda function, we can omit the `this` keyword.<br>
+So we can use like below.
+```kotlin
+val myDialog: Dialog by lifecycleAware { getDarkThemeDialog(baseContext) }
+    .onCreate { show() } // show the dialog when the lifecycle's state is onCreate.
+    .onDestroy { dismiss() } // dismiss the dialog when the lifecycle's state is onDestroy.
     .lazy() // initlize the dialog lazily.
 ```
 
+#### CompositeDisposable in RxJava2
 Here is an example of `CompositeDisposable` in RxJava2. <br>
-At the same time as declaring the CompositeDisposable, the `dispose()` method will be <br>invoked automatically when onDestroy.
+At the same time as initializing lazily the CompositeDisposable, the `dispose()` method will be <br>invoked automatically when onDestroy.
 
 ```kotlin
 val compositeDisposable by lifecycleAware { CompositeDisposable() }
-    .onDestroy { it.dispose() } // call the dispose() method when onDestroy this activity.
+    .onDestroy { dispose() } // call the dispose() method when onDestroy this activity.
     .lazy() // initialize a CompositeDisposable lazily.
 ```
 #### Lifecycle related methods
@@ -68,7 +77,8 @@ We can invoke lambda functions as lifecycle changes and here are eight lifecycle
 .onAny { } // the lambda will be invoked whenever the lifecycle state is changed.
 .on(On.Create) { } // we can set the lifecycle state manually as an attribute.
 ```
-#### Using in the non-lifecycle owner class
+
+#### Usages in the non-lifecycle owner class
 The `lifecycleAware` is an extension of `lifecycleOwner` so it can be used on non- lifecycle-owner classes.
 ```kotlin
 class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
@@ -82,11 +92,11 @@ class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
 
 ### LifecycleAwareProperty
 If we don't need to initialize lazily, here is a more simple way.<br>
-We can declare a `LifecycleAwareProperty` using the `lifecycleAware` keyword.<br> The attribute value will not be initialized lazily. so we don't need to use it with `by` keyword.<br>
+We can declare a `LifecycleAwareProperty` using the `lifecycleAware` keyword.<br> The attribute value will not be initialized lazily. so we don't need to use it with `by` keyword and `lazy()` method.<br>
 ```kotlin
 private val lifecycleAwareProperty = lifecycleAware(CompositeDisposable())
     // observe lifecycle's state and call the dispose() method when onDestroy  
-    .observeOnDestroy { it.dispose() }
+    .observeOnDestroy { dispose() }
 ```
 And we can access the original property via the `value` field.
 ```kotlin
@@ -99,12 +109,21 @@ We can observe the lifecycle changes using `observe_` method.<br>
 class MainActivity : AppCompatActivity() {
 
   private val lifecycleAwareProperty = lifecycleAware(DialogUtil.getDarkTheme())
-    .observeOnCreate { it.show() }
-    .observeOnDestroy { Log.d(TAG, "OnDestroy: $it") }
-    .observeOnAny { }
-    .observeOn(On.CREATE) { }
+    .observeOnCreate { show() }
+    .observeOnDestroy { dismiss() }
+    .observeOnAny { .. }
+    .observeOn(On.CREATE) { .. }
 
     ...
+```
+Here is the kotlin dsl way.
+```kotlin
+private val lifecycleAwareProperty = lifecycleAware(getDarkThemeDialg())
+    .observe {
+      onCreate { show() }
+      onResume { restart() }
+      onDestroy { dismiss() }
+    }
 ```
 
 #### Using in the non-lifecycle owner class

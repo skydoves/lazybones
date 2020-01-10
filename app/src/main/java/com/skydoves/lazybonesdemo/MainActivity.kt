@@ -22,9 +22,17 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.skydoves.balloon.Balloon
 import com.skydoves.lazybones.lifecycleAware
+import com.skydoves.lazybones.observe
 import kotlinx.android.synthetic.main.activity_main.button
 
 class MainActivity : AppCompatActivity() {
+
+  private val lifecycleAwareProperty = lifecycleAware(getDarkThemeDialg())
+    .observe {
+      onCreate { show() }
+      onResume { restart() }
+      onDestroy { dismiss() }
+    }
 
   private val mainViewModel = MainViewModel(this)
   private val balloon: Balloon by lifecycleAware { BalloonUtils.getProfileBalloon(baseContext) }
