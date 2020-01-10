@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
 ```
 Here is the kotlin dsl way.
 ```kotlin
-private val lifecycleAwareProperty = lifecycleAware(getDarkThemeDialg())
+private val lifecycleAwareProperty = lifecycleAware(getDarkThemeDialog())
     .observe {
       onCreate { show() }
       onResume { restart() }
