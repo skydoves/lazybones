@@ -20,60 +20,65 @@ package com.skydoves.lazybones
 
 import androidx.lifecycle.LifecycleOwner
 
+/** creates a [LifecycleAwareProperty] by [LifecycleAwareProperty.Builder] using dsl. */
+@LazybonesWithNoInlines
+fun <T> LifecycleAwareProperty<T>.observe(block: LifecycleAwareProperty.Builder<T>.() -> Unit): LifecycleAwareProperty<T> =
+  LifecycleAwareProperty.Builder(this.lifecycleOwner, this.value).apply(block).build()
+
 /** LifecycleAwareProperty is an observer for notifying lifecycle is changed. */
 class LifecycleAwareProperty<T>
-constructor(private val lifecycleOwner: LifecycleOwner, var value: T) {
+constructor(val lifecycleOwner: LifecycleOwner, var value: T) {
 
   /** observes on the [On] lifecycle state. */
   @LazybonesWithNoInlines
-  fun observeOn(on: On, receiver: (T) -> Unit) = apply {
+  fun observeOn(on: On, receiver: T.() -> Unit) = apply {
     addLifecycleObserver(on, receiver)
   }
 
   /** observes on the [On.CREATE] lifecycle state. */
   @LazybonesWithNoInlines
-  fun observeOnCreate(receiver: (T) -> Unit) = apply {
+  fun observeOnCreate(receiver: T.() -> Unit) = apply {
     addLifecycleObserver(On.CREATE, receiver)
   }
 
   /** observes on the [On.START] lifecycle state. */
   @LazybonesWithNoInlines
-  fun observeOnStart(receiver: (T) -> Unit) = apply {
+  fun observeOnStart(receiver: T.() -> Unit) = apply {
     addLifecycleObserver(On.START, receiver)
   }
 
   /** observes on the [On.RESUME] lifecycle state. */
   @LazybonesWithNoInlines
-  fun observeOnResume(receiver: (T) -> Unit) = apply {
+  fun observeOnResume(receiver: T.() -> Unit) = apply {
     addLifecycleObserver(On.RESUME, receiver)
   }
 
   /** observes on the [On.PAUSE] lifecycle state. */
   @LazybonesWithNoInlines
-  fun observeOnPause(receiver: (T) -> Unit) = apply {
+  fun observeOnPause(receiver: T.() -> Unit) = apply {
     addLifecycleObserver(On.PAUSE, receiver)
   }
 
   /** observes on the [On.STOP] lifecycle state. */
   @LazybonesWithNoInlines
-  fun observeOnStop(receiver: (T) -> Unit) = apply {
+  fun observeOnStop(receiver: T.() -> Unit) = apply {
     addLifecycleObserver(On.STOP, receiver)
   }
 
   /** observes on the [On.DESTROY] lifecycle state. */
   @LazybonesWithNoInlines
-  fun observeOnDestroy(receiver: (T) -> Unit) = apply {
+  fun observeOnDestroy(receiver: T.() -> Unit) = apply {
     addLifecycleObserver(On.DESTROY, receiver)
   }
 
   /** observes on the [On.ANY] lifecycle state. */
   @LazybonesWithNoInlines
-  fun observeOnAny(receiver: (T) -> Unit) = apply {
+  fun observeOnAny(receiver: T.() -> Unit) = apply {
     addLifecycleObserver(On.ANY, receiver)
   }
 
   /** adds a lifecycle observer based on [On] lifecycle state internally. */
-  private fun addLifecycleObserver(on: On, receiver: (T) -> Unit) {
+  private fun addLifecycleObserver(on: On, receiver: T.() -> Unit) {
     val observer = on.getOnLifecyclePropertyObserver(this.value)
     observer.registerLifecyclePropertyObserver(object : LifecycleAwarePropertyObserver<T> {
       override fun onChanged(value: T) {
@@ -81,5 +86,61 @@ constructor(private val lifecycleOwner: LifecycleOwner, var value: T) {
       }
     })
     this.lifecycleOwner.lifecycle.addObserver(observer)
+  }
+
+  /** Builder class for creating [LifecycleAwareProperty]. */
+  class Builder<T>(lifecycleOwner: LifecycleOwner, var value: T) {
+    private val lifecycleAwareProperty = LifecycleAwareProperty(lifecycleOwner, value)
+
+    /** observes on the [On] lifecycle state. */
+    @LazybonesWithNoInlines
+    fun on(on: On, receiver: T.() -> Unit) = apply {
+      this.lifecycleAwareProperty.addLifecycleObserver(on, receiver)
+    }
+
+    /** observes on the [On.CREATE] lifecycle state. */
+    @LazybonesWithNoInlines
+    fun onCreate(receiver: T.() -> Unit) = apply {
+      this.lifecycleAwareProperty.addLifecycleObserver(On.CREATE, receiver)
+    }
+
+    /** observes on the [On.START] lifecycle state. */
+    @LazybonesWithNoInlines
+    fun onStart(receiver: T.() -> Unit) = apply {
+      this.lifecycleAwareProperty.addLifecycleObserver(On.START, receiver)
+    }
+
+    /** observes on the [On.RESUME] lifecycle state. */
+    @LazybonesWithNoInlines
+    fun onResume(receiver: T.() -> Unit) = apply {
+      this.lifecycleAwareProperty.addLifecycleObserver(On.RESUME, receiver)
+    }
+
+    /** observes on the [On.PAUSE] lifecycle state. */
+    @LazybonesWithNoInlines
+    fun onPause(receiver: T.() -> Unit) = apply {
+      this.lifecycleAwareProperty.addLifecycleObserver(On.PAUSE, receiver)
+    }
+
+    /** observes on the [On.STOP] lifecycle state. */
+    @LazybonesWithNoInlines
+    fun onStop(receiver: T.() -> Unit) = apply {
+      this.lifecycleAwareProperty.addLifecycleObserver(On.STOP, receiver)
+    }
+
+    /** observes on the [On.DESTROY] lifecycle state. */
+    @LazybonesWithNoInlines
+    fun onDestroy(receiver: T.() -> Unit) = apply {
+      this.lifecycleAwareProperty.addLifecycleObserver(On.DESTROY, receiver)
+    }
+
+    /** observes on the [On.ANY] lifecycle state. */
+    @LazybonesWithNoInlines
+    fun onAny(receiver: T.() -> Unit) = apply {
+      this.lifecycleAwareProperty.addLifecycleObserver(On.ANY, receiver)
+    }
+
+    /** returns a new instance of [LifecycleAwareProperty]. */
+    fun build() = this.lifecycleAwareProperty
   }
 }

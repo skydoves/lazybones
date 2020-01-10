@@ -68,7 +68,7 @@ We can invoke lambda functions as lifecycle changes and here are eight lifecycle
 .onAny { } // the lambda will be invoked whenever the lifecycle state is changed.
 .on(On.Create) { } // we can set the lifecycle state manually as an attribute.
 ```
-#### Declare on the non-lifecycle owner
+#### Using in the non-lifecycle owner class
 The `lifecycleAware` is an extension of `lifecycleOwner` so it can be used on non- lifecycle-owner classes.
 ```kotlin
 class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
@@ -95,6 +95,20 @@ lifecycleAwareProperty.value.dispose()
 ```
 
 We can observe the lifecycle changes using `observe_` method.<br>
+```kotlin
+class MainActivity : AppCompatActivity() {
+
+  private val lifecycleAwareProperty = lifecycleAware(DialogUtil.getDarkTheme())
+    .observeOnCreate { it.show() }
+    .observeOnDestroy { Log.d(TAG, "OnDestroy: $it") }
+    .observeOnAny { }
+    .observeOn(On.CREATE) { }
+
+    ...
+```
+
+#### Using in the non-lifecycle owner class
+The `lifecycleAware` is an extension of `lifecycleOwner` so it can be used on non- lifecycle-owner classes.
 ```kotlin
 class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
 

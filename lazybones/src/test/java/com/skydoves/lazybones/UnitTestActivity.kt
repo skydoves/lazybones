@@ -20,11 +20,11 @@ import androidx.fragment.app.FragmentActivity
 
 class UnitTestActivity : FragmentActivity() {
   val testModel by lifecycleAware { TestModel() }
-    .onCreate { it.number = 15 }
-    .onStart { it.number = 20 }
-    .onResume { it.number = 25 }
-    .onStop { it.number = 30 }
-    .onPause { it.number = 35 }
-    .onDestroy { it.number = 40 }
+    .onCreate { number = 15 }
+    .onStart { number = 20 }
+    .onResume { number = 25 }
+    .onStop { number = 30 }
+    .onPause { number = 35 }
+    .onDestroy { number = 40 }
     .lazy()
 }

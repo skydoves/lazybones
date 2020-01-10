@@ -43,26 +43,20 @@ class LazybonesTest {
       .onCreate {
         assertThat(activity.testModel.tag, `is`("skydoves"))
         assertThat(activity.testModel.number, `is`(20))
-        it.apply {
-          tag = "onCreate"
-          number = 15
-        }
+        tag = "onCreate"
+        number = 15
       }
       .onResume {
         assertThat(activity.testModel.tag, `is`("onCreate"))
         assertThat(activity.testModel.number, `is`(25))
-        it.apply {
-          tag = "onResume"
-          number = 20
-        }
+        tag = "onResume"
+        number = 20
       }
       .onStop {
         assertThat(activity.testModel.tag, `is`("onResume"))
         assertThat(activity.testModel.number, `is`(30))
-        it.apply {
-          tag = "onStop"
-          number = 25
-        }
+        tag = "onStop"
+        number = 25
       }
       .onDestroy {
         assertThat(activity.testModel.tag, `is`("onStop"))
@@ -90,6 +84,6 @@ class LazybonesTest {
     assertThat(activity.testModel.number, `is`(40))
   }
 
-  fun getController(): ActivityController<UnitTestActivity> =
+  private fun getController(): ActivityController<UnitTestActivity> =
     Robolectric.buildActivity(UnitTestActivity::class.java).create().start()
 }

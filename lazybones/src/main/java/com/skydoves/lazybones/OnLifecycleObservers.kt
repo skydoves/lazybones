@@ -68,9 +68,9 @@ internal class OnAnyObserver<T> : OnLifecycleObserver<T>() {
 internal abstract class OnLifecycleObserver<T> : LifecycleObserver {
 
   private lateinit var lazy: Lazy<T>
-  private lateinit var receiver: ((T) -> Unit)
+  private lateinit var receiver: (T.() -> Unit)
 
-  fun registerLazyProperty(lazy: Lazy<T>, receiver: (T) -> Unit) {
+  fun registerLazyProperty(lazy: Lazy<T>, receiver: T.() -> Unit) {
     this.lazy = lazy
     this.receiver = receiver
   }

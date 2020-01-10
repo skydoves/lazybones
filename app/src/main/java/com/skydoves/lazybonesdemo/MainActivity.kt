@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
 
   private val mainViewModel = MainViewModel(this)
   private val balloon: Balloon by lifecycleAware { BalloonUtils.getProfileBalloon(baseContext) }
-    .onCreate { it.showAlignTop(button) }
-    .onDestroy { it.dismiss() }
+    .onCreate { showAlignTop(button) }
+    .onDestroy { dismiss() }
     .lazy()
 
   override fun onCreate(savedInstanceState: Bundle?) {
