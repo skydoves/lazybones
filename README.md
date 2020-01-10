@@ -134,14 +134,14 @@ class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
   private val TAG = MainViewModel::class.java.simpleName
   private val lifecycleAwareProperty = lifecycleOwner.lifecycleAware(Rabbit())
 
-  init {
+ init {
     this.lifecycleAwareProperty
-      .observeOnCreate { Log.d(TAG, "OnCreate: $it") }
-      .observeOnStart { Log.d(TAG, "OnStart: $it") }
-      .observeOnResume { Log.d(TAG, "OnResume: $it") }
-      .observeOnPause { Log.d(TAG, "OnPause: $it") }
-      .observeOnStop { Log.d(TAG, "OnStop: $it") }
-      .observeOnDestroy { Log.d(TAG, "OnDestroy: $it") }
+      .observeOnCreate { Log.d(TAG, "OnCreate: $this") }
+      .observeOnStart { Log.d(TAG, "OnStart: $this") }
+      .observeOnResume { Log.d(TAG, "OnResume: $this") }
+      .observeOnPause { Log.d(TAG, "OnPause: $this") }
+      .observeOnStop { Log.d(TAG, "OnStop: $this") }
+      .observeOnDestroy { Log.d(TAG, "OnDestroy: $this") }
       .observeOnAny { }
       .observeOn(On.CREATE) { }
   }
