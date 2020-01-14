@@ -26,7 +26,7 @@ import java.io.Serializable
 inline fun <reified T> LifecycleOwner.lifecycleAware(
   noinline initializer: () -> T
 ): Lazybones<T> {
-  return Lazybones(this, lazy { initializer() })
+  return Lazybones(this, lazy(LazyThreadSafetyMode.NONE) { initializer() })
 }
 
 inline fun <reified T> LifecycleOwner.lifecycleAware(
