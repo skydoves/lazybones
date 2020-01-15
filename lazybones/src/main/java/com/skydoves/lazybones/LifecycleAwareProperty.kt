@@ -22,11 +22,11 @@ import androidx.lifecycle.LifecycleOwner
 
 /** creates a [LifecycleAwareProperty] by [LifecycleAwareProperty.Builder] using dsl. */
 @LazybonesWithNoInlines
-fun <T> LifecycleAwareProperty<T>.observe(block: LifecycleAwareProperty.Builder<T>.() -> Unit): LifecycleAwareProperty<T> =
+fun <T : Any> LifecycleAwareProperty<T>.observe(block: LifecycleAwareProperty.Builder<T>.() -> Unit): LifecycleAwareProperty<T> =
   LifecycleAwareProperty.Builder(this.lifecycleOwner, this.value).apply(block).build()
 
 /** LifecycleAwareProperty is an observer for notifying lifecycle is changed. */
-class LifecycleAwareProperty<T>
+class LifecycleAwareProperty<T : Any>
 constructor(val lifecycleOwner: LifecycleOwner, var value: T) {
 
   /** observes on the [On] lifecycle state. */
@@ -89,7 +89,7 @@ constructor(val lifecycleOwner: LifecycleOwner, var value: T) {
   }
 
   /** Builder class for creating [LifecycleAwareProperty]. */
-  class Builder<T>(lifecycleOwner: LifecycleOwner, var value: T) {
+  class Builder<T : Any>(lifecycleOwner: LifecycleOwner, var value: T) {
     private val lifecycleAwareProperty = LifecycleAwareProperty(lifecycleOwner, value)
 
     /** observes on the [On] lifecycle state. */

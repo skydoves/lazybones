@@ -17,6 +17,6 @@
 package com.skydoves.lazybones
 
 /** LifecycleAwarePropertyObserver is an observer for notifying lifecycle is changed.  */
-internal interface LifecycleAwarePropertyObserver<T> {
+internal interface LifecycleAwarePropertyObserver<T : Any> {
   fun onChanged(value: T)
 }

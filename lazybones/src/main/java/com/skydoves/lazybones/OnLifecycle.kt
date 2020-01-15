@@ -28,7 +28,7 @@ enum class On {
 }
 
 /** gets an [OnLifecycleObserver] from a instance of [On]. */
-internal fun <T> On.getOnLifecycleObserver(): OnLifecycleObserver<T> {
+internal fun <T : Any> On.getOnLifecycleObserver(): OnLifecycleObserver<T> {
   return when (this) {
     On.CREATE -> OnCreateObserver()
     On.START -> OnStartObserver()
@@ -41,7 +41,7 @@ internal fun <T> On.getOnLifecycleObserver(): OnLifecycleObserver<T> {
 }
 
 /** gets an [OnLifecyclePropertyObserver] from a instance of [On]. */
-internal fun <T> On.getOnLifecyclePropertyObserver(value: T): OnLifecyclePropertyObserver<T> {
+internal fun <T : Any> On.getOnLifecyclePropertyObserver(value: T): OnLifecyclePropertyObserver<T> {
   return when (this) {
     On.CREATE -> OnCreatePropertyObserver(value)
     On.START -> OnStartPropertyObserver(value)
