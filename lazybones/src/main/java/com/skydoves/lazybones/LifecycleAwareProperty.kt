@@ -80,11 +80,7 @@ constructor(val lifecycleOwner: LifecycleOwner, var value: T) {
   /** adds a lifecycle observer based on [On] lifecycle state internally. */
   private fun addLifecycleObserver(on: On, receiver: T.() -> Unit) {
     val observer = on.getOnLifecyclePropertyObserver(this.value)
-    observer.registerLifecyclePropertyObserver(object : LifecycleAwarePropertyObserver<T> {
-      override fun onChanged(value: T) {
-        receiver(value)
-      }
-    })
+    observer.registerLifecyclePropertyObserver { value -> receiver(value) }
     this.lifecycleOwner.lifecycle.addObserver(observer)
   }
 
