@@ -26,9 +26,9 @@ import com.skydoves.lazybonesdemo.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-  private val binding: ActivityMainBinding by lazy(
-    LazyThreadSafetyMode.NONE
-  ) { ActivityMainBinding.inflate(layoutInflater) }
+  private val binding: ActivityMainBinding by lifecycleAware {
+    ActivityMainBinding.inflate(layoutInflater)
+  }.lazy()
 
   private val mainViewModel = MainViewModel(this)
 
