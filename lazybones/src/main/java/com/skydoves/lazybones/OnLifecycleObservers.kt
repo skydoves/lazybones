@@ -22,43 +22,43 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 
-/** A lifecycle observer for performing receiver when the lifecycle state is [On.CREATE]. */
+/** A lifecycle observer for performing receiver after the lifecycle state is [On.CREATE]. */
 internal class OnCreateObserver<T : Any> : OnLifecycleObserver<T>() {
   @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
   fun onCreate() = super.initialize()
 }
 
-/** A lifecycle observer for performing receiver when the lifecycle state is [On.START]. */
+/** A lifecycle observer for performing receiver after the lifecycle state is [On.START]. */
 internal class OnStartObserver<T : Any> : OnLifecycleObserver<T>() {
   @OnLifecycleEvent(Lifecycle.Event.ON_START)
   fun onStart() = super.initialize()
 }
 
-/** A lifecycle observer for performing receiver when the lifecycle state is [On.RESUME]. */
+/** A lifecycle observer for performing receiver after the lifecycle state is [On.RESUME]. */
 internal class OnResumeObserver<T : Any> : OnLifecycleObserver<T>() {
   @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
   fun onResume() = super.initialize()
 }
 
-/** A lifecycle observer for performing receiver when the lifecycle state is [On.PAUSE]. */
+/** A lifecycle observer for performing receiver before the lifecycle state is [On.PAUSE]. */
 internal class OnPauseObserver<T : Any> : OnLifecycleObserver<T>() {
   @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
   fun onPause() = super.initialize()
 }
 
-/** A lifecycle observer for performing receiver when the lifecycle state is [On.STOP]. */
+/** A lifecycle observer for performing receiver before the lifecycle state is [On.STOP]. */
 internal class OnStopObserver<T : Any> : OnLifecycleObserver<T>() {
   @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
   fun onStop() = super.initialize()
 }
 
-/** A lifecycle observer for performing receiver when the lifecycle state is [On.DESTROY]. */
+/** A lifecycle observer for performing receiver before the lifecycle state is [On.DESTROY]. */
 internal class OnDestroyObserver<T : Any> : OnLifecycleObserver<T>() {
   @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
   fun onDestroy() = super.initialize()
 }
 
-/** A lifecycle observer for performing receiver when the lifecycle state is [On.ANY]. */
+/** A lifecycle observer for performing receiver based on the lifecycle state. */
 internal class OnAnyObserver<T : Any> : OnLifecycleObserver<T>() {
   @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
   fun onAny() = super.initialize()
