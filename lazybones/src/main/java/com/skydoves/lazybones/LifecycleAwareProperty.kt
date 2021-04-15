@@ -26,8 +26,10 @@ fun <T : Any> LifecycleAwareProperty<T>.observe(block: LifecycleAwareProperty.Bu
   LifecycleAwareProperty.Builder(this.lifecycleOwner, this.value).apply(block).build()
 
 /** LifecycleAwareProperty is an observer for notifying lifecycle is changed. */
-class LifecycleAwareProperty<T : Any>
-constructor(val lifecycleOwner: LifecycleOwner, var value: T) {
+class LifecycleAwareProperty<T : Any> constructor(
+  val lifecycleOwner: LifecycleOwner,
+  var value: T
+) {
 
   /** observes on the [On] lifecycle state. */
   @LazybonesWithNoInlines
