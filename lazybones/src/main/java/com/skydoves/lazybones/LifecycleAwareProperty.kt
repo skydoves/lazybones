@@ -22,12 +22,14 @@ import androidx.lifecycle.LifecycleOwner
 
 /** creates a [LifecycleAwareProperty] by [LifecycleAwareProperty.Builder] using dsl. */
 @LazybonesWithNoInlines
-fun <T : Any> LifecycleAwareProperty<T>.observe(block: LifecycleAwareProperty.Builder<T>.() -> Unit): LifecycleAwareProperty<T> =
+inline fun <T : Any> LifecycleAwareProperty<T>.observe(block: LifecycleAwareProperty.Builder<T>.() -> Unit): LifecycleAwareProperty<T> =
   LifecycleAwareProperty.Builder(this.lifecycleOwner, this.value).apply(block).build()
 
 /** LifecycleAwareProperty is an observer for notifying lifecycle is changed. */
-class LifecycleAwareProperty<T : Any>
-constructor(val lifecycleOwner: LifecycleOwner, var value: T) {
+class LifecycleAwareProperty<T : Any> constructor(
+  val lifecycleOwner: LifecycleOwner,
+  var value: T
+) {
 
   /** observes on the [On] lifecycle state. */
   @LazybonesWithNoInlines
@@ -80,16 +82,12 @@ constructor(val lifecycleOwner: LifecycleOwner, var value: T) {
   /** adds a lifecycle observer based on [On] lifecycle state internally. */
   private fun addLifecycleObserver(on: On, receiver: T.() -> Unit) {
     val observer = on.getOnLifecyclePropertyObserver(this.value)
-    observer.registerLifecyclePropertyObserver(object : LifecycleAwarePropertyObserver<T> {
-      override fun onChanged(value: T) {
-        receiver(value)
-      }
-    })
+    observer.registerLifecyclePropertyObserver { value -> receiver(value) }
     this.lifecycleOwner.lifecycle.addObserver(observer)
   }
 
   /** Builder class for creating [LifecycleAwareProperty]. */
-  class Builder<T : Any>(lifecycleOwner: LifecycleOwner, var value: T) {
+  class Builder<T : Any>(lifecycleOwner: LifecycleOwner, value: T) {
     private val lifecycleAwareProperty = LifecycleAwareProperty(lifecycleOwner, value)
 
     /** observes on the [On] lifecycle state. */

@@ -19,15 +19,17 @@ package com.skydoves.lazybonesdemo
 import android.content.Context
 import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
 
 object BalloonUtils {
 
   fun getProfileBalloon(baseContext: Context): Balloon {
     return Balloon.Builder(baseContext)
       .setText("You can edit your profile now!")
+      .setWidth(BalloonSizeSpec.WRAP)
+      .setHeight(BalloonSizeSpec.WRAP)
       .setArrowSize(10)
-      .setWidthRatio(0.75f)
-      .setHeight(63)
+      .setPadding(10)
       .setTextSize(15f)
       .setCornerRadius(8f)
       .setTextColorResource(R.color.white_87)

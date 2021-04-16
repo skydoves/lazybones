@@ -24,9 +24,10 @@ import java.io.Serializable
 /** returns a [Lazybones] delegate for initializing lifecycle aware property. */
 @LazybonesWithNoInlines
 inline fun <reified T : Any> LifecycleOwner.lifecycleAware(
-  noinline initializer: () -> T
+  lazyThreadSafetyMode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE,
+  noinline initializer: () -> T,
 ): Lazybones<T> {
-  return Lazybones(this, lazy(LazyThreadSafetyMode.NONE) { initializer() })
+  return Lazybones(this, lazy(lazyThreadSafetyMode) { initializer() })
 }
 
 inline fun <reified T : Any> LifecycleOwner.lifecycleAware(
@@ -36,7 +37,7 @@ inline fun <reified T : Any> LifecycleOwner.lifecycleAware(
 }
 
 /** [Lazybones] is a wrapper class having [Lazy] property for lifecycle aware. */
-class Lazybones<out T : Any>(
+class Lazybones<out T : Any> constructor(
   private val lifecycleOwner: LifecycleOwner,
   private val lazy: Lazy<T>
 ) : Serializable {

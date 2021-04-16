@@ -24,7 +24,6 @@ import com.skydoves.lazybones.lifecycleAware
 
 class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
 
-  private val TAG = MainViewModel::class.java.simpleName
   private val lifecycleAwareProperty = lifecycleOwner.lifecycleAware(Rabbit())
 
   init {
@@ -37,5 +36,9 @@ class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
       .observeOnDestroy { Log.d(TAG, "OnDestroy: $this") }
       .observeOnAny { }
       .observeOn(On.CREATE) { }
+  }
+
+  companion object {
+    private val TAG = MainViewModel::class.java.simpleName
   }
 }

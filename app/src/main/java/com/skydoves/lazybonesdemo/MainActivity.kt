@@ -22,18 +22,23 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.skydoves.balloon.Balloon
 import com.skydoves.lazybones.lifecycleAware
-import kotlinx.android.synthetic.main.activity_main.button
+import com.skydoves.lazybonesdemo.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+  private val binding: ActivityMainBinding by lifecycleAware {
+    ActivityMainBinding.inflate(layoutInflater)
+  }.lazy()
+
   private val mainViewModel = MainViewModel(this)
+
   private val balloon: Balloon by lifecycleAware { BalloonUtils.getProfileBalloon(baseContext) }
-    .onCreate { showAlignTop(button) }
+    .onCreate { showAlignTop(binding.button) }
     .onDestroy { dismiss() }
     .lazy()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
+    setContentView(binding.root)
   }
 }
