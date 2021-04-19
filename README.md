@@ -202,7 +202,7 @@ private val job: Job by launchOnStarted(repository.fetchesDataFlow()) {
 ### addOnRepeatingJob
 The [addRepeatingJob](https://developer.android.com/reference/kotlin/androidx/lifecycle/package-summary#addrepeatingjob) extension has been added in the new version of the  [Lifecycle-runtime-ktx]((https://developer.android.com/jetpack/androidx/releases/lifecycle)). 
 
-> Launches and runs the given block in a coroutine when this LifecycleOwner's Lifecycle is at least at state. The launched coroutine will be cancelled when the lifecycle state falls below state.
+> Launches and runs the given block in a coroutine when this LifecycleOwner's Lifecycle is at least at state. The launched coroutine will be canceled when the lifecycle state falls below the state.
 
 We can collect a flow on the coroutines lifecycle scope and cancel it automatically if the lifecycle falls below that state, and will restart if it's in that state again.
 
