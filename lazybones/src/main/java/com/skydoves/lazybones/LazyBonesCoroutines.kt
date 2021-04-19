@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+@file:JvmName("LazyBonesCoroutines")
+@file:JvmMultifileClass
+
 package com.skydoves.lazybones
 
 import androidx.lifecycle.Lifecycle
