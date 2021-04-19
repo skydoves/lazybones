@@ -54,19 +54,50 @@ val myDialog: Dialog by lifecycleAware { getDarkThemeDialog(baseContext) }
 ```
 In the `onCreate` and `onDestroy` lambda function, we can omit the `this` keyword. In the below example, the `MediaPlayer` will be initialized and the `start()` will be invoked on the `onCreate` state of the lifecycle. And the `pause()`, `stop()`, or `release()` will be invoked based on the state of the lifecycle.
 ```kotlin
-  private val mediaPlayer: MediaPlayer by lifecycleAware {
-    MediaPlayer.create(this, ResourceUtils.getBgmResource(prayerSession.type))
-  }.onCreate {
-    isLooping = true
-    start()
-  }.onStop {
-    pause()
-  }.onResume {
-    start()
-  }.onDestroy {
-    stop()
-    release()
-  }.lazy()
+private val mediaPlayer: MediaPlayer by lifecycleAware {
+  MediaPlayer.create(this, R.raw.bgm3)
+}.onCreate {
+  isLooping = true
+  start()
+}.onStop {
+  pause()
+}.onResume {
+  start()
+}.onDestroy {
+  stop()
+  release()
+}.lazy()
+```
+The above code works the same as the below codes.
+```kotlin
+private val mediaPlayer: MediaPlayer by lazy { MediaPlayer.create(this, R.raw.bgm3) }
+
+override fun onCreate(savedInstanceState: Bundle?) {
+  super.onCreate(savedInstanceState)
+  mediaPlayer.isLooping = true
+  mediaPlayer.start()
+}
+
+override fun onPause() {
+  super.onPause()
+  mediaPlayer.pause()
+}
+
+override fun onStop() {
+  super.onStop()
+  mediaPlayer.pause()
+}
+
+override fun onResume() {
+  super.onResume()
+  mediaPlayer.start()
+}
+
+override fun onDestroy() {
+  super.onDestroy()
+  mediaPlayer.stop()
+  mediaPlayer.release()
+}
 ```
 
 #### CompositeDisposable in RxJava2
