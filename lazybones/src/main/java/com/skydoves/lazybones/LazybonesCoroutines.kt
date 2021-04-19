@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:JvmName("LazyBonesCoroutines")
+@file:JvmName("LazybonesCoroutines")
 @file:JvmMultifileClass
 
 package com.skydoves.lazybones
