@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+@file:JvmName("OnLifecycle")
+@file:JvmMultifileClass
+
 package com.skydoves.lazybones
 
 /** Defines an object that has an Android Lifecycle. */

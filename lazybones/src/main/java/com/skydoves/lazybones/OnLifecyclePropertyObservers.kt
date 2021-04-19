@@ -15,6 +15,8 @@
  */
 
 @file:Suppress("unused")
+@file:JvmName("OnLifecyclePropertyObservers")
+@file:JvmMultifileClass
 
 package com.skydoves.lazybones
 
