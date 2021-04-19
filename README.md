@@ -52,8 +52,7 @@ val myDialog: Dialog by lifecycleAware { getDarkThemeDialog(baseContext) }
     .onDestroy { this.dismiss() } // dismiss the dialog when the lifecycle's state is onDestroy.
     .lazy() // initlize the dialog lazily.
 ```
-In the `onCreate` and `onDestroy` lambda function, we can omit the `this` keyword.<br>
-So we can use like below. In the below example, the `MediaPlayer` will be initialized and `start` on the `onCreate` state of the lifecycle, and it will be invoked `pause()`, `stop()`, or `release()` base on the state of the lifecycle.
+In the `onCreate` and `onDestroy` lambda function, we can omit the `this` keyword. In the below example, the `MediaPlayer` will be initialized and the `start()` will be invoked on the `onCreate` state of the lifecycle. And the `pause()`, `stop()`, or `release()` will be invoked based on the state of the lifecycle.
 ```kotlin
   private val mediaPlayer: MediaPlayer by lifecycleAware {
     MediaPlayer.create(this, ResourceUtils.getBgmResource(prayerSession.type))
