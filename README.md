@@ -38,9 +38,7 @@ dependencies {
 
 ## Usage
 ### lifecycleAware
-We can initialize a lifecycle-aware object lazily using the `lifecycleAware` keyword. <br>
-The `lifecycleAware` functionality can be used to register & unregister listeners, clear something,<br>show & dismiss and dispose of disposable objects as lifecycle changes by lifecycle owner(Activity, Fragment).<br>
-If we want to initialize an object lazily, we should use it with `by` keyword and  `lazy()` method.
+We can initialize a lifecycle-aware object lazily using the `lifecycleAware` keyword. The `lifecycleAware` functionality can be used to register & unregister listeners, clear something show & dismiss and dispose of disposable objects as lifecycle changes by lifecycle owner(Activity, Fragment). If we want to initialize an object lazily, we should use it with `by` keyword and  `lazy()` method.
 ```kotlin
 val myDialog: Dialog by lifecycleAware { getDarkThemeDialog(baseContext) }
     .onCreate { this.show() } // show the dialog when the lifecycle's state is onCreate.
@@ -48,12 +46,21 @@ val myDialog: Dialog by lifecycleAware { getDarkThemeDialog(baseContext) }
     .lazy() // initlize the dialog lazily.
 ```
 In the `onCreate` and `onDestroy` lambda function, we can omit the `this` keyword.<br>
-So we can use like below.
+So we can use like below. In the below example, the `MediaPlayer` will be initialized and `start` on the `onCreate` state of the lifecycle, and it will be invoked `pause()`, `stop()`, or `release()` base on the state of the lifecycle.
 ```kotlin
-val myDialog: Dialog by lifecycleAware { getDarkThemeDialog(baseContext) }
-    .onCreate { show() } // show the dialog when the lifecycle's state is onCreate.
-    .onDestroy { dismiss() } // dismiss the dialog when the lifecycle's state is onDestroy.
-    .lazy() // initlize the dialog lazily.
+  private val mediaPlayer: MediaPlayer by lifecycleAware {
+    MediaPlayer.create(this, ResourceUtils.getBgmResource(prayerSession.type))
+  }.onCreate {
+    isLooping = true
+    start()
+  }.onStop {
+    pause()
+  }.onResume {
+    start()
+  }.onDestroy {
+    stop()
+    release()
+  }.lazy()
 ```
 
 #### CompositeDisposable in RxJava2
@@ -91,8 +98,7 @@ class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
 ```
 
 ### LifecycleAwareProperty
-If we don't need to initialize lazily, here is a more simple way.<br>
-We can declare a `LifecycleAwareProperty` using the `lifecycleAware` keyword.<br> The attribute value will not be initialized lazily. so we don't need to use it with `by` keyword and `lazy()` method.<br>
+If we don't need to initialize lazily, here is a more simple way. We can declare a `LifecycleAwareProperty` using the `lifecycleAware` keyword. The attribute value will not be initialized lazily. so we don't need to use it with `by` keyword and `lazy()` method.<br>
 ```kotlin
 private val lifecycleAwareProperty = lifecycleAware(CompositeDisposable())
     // observe lifecycle's state and call the dispose() method when onDestroy  
@@ -116,7 +122,7 @@ class MainActivity : AppCompatActivity() {
 
     ...
 ```
-Here is the kotlin dsl way.
+Here is the kotlin DSL way.
 ```kotlin
 private val lifecycleAwareProperty = lifecycleAware(getDarkThemeDialog())
     .observe {
@@ -146,6 +152,57 @@ class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
       .observeOn(On.CREATE) { }
   }
   ...
+```
+
+### Coroutines and Flow
+Add a dependency code to your module's `build.gradle` file.
+```gradle
+dependencies {
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle" // over the 2.4.0-alpha01
+}
+```
+
+We can apply to the coroutines `lifecycleScope` for launching suspend functions. The [Lifecycle-runtime-ktx](https://developer.android.com/jetpack/androidx/releases/lifecycle) supports `launchWhenStarted`, `launchWhenCreated`, and `launchWhenResumed` for the `lifecycleScope`. However those coroutines jobs will not be canceled automatically, so they must be `canceled` on a specific lifecycle. And we can declare canceling together with initialization like the below.
+
+```kotlin
+private val job: Job by lifecycleAware {
+    lifecycleScope.launchWhenCreated {
+      // call suspend
+    }
+  }.onDestroy {
+    cancel() // cancel when the lifecycle is destroyed.
+  }.lazy()
+```
+We can reduce the above codes like the below using the `launchOnStarted`, `launchOnCreated`, and `launchOnResume`.
+
+```kotlin
+private val job: Job by launchOnStarted {
+    // call suspend
+  }.onDestroy {
+    cancel()
+  }.lazy()
+```
+If we need to collect one flow on the coroutines lifecycle scope, we can use like the below.
+
+```kotlin
+private val job: Job by launchOnStarted(repository.fetchesDataFlow()) {
+    // collected value from the repository.fetchesDataFlow()
+  }.onDestroy {
+    cancel()
+  }.lazy()
+```
+
+### addOnRepeatingJob
+The [addRepeatingJob](https://developer.android.com/reference/kotlin/androidx/lifecycle/package-summary#addrepeatingjob) extension has been added in the new version of the  [Lifecycle-runtime-ktx]((https://developer.android.com/jetpack/androidx/releases/lifecycle)). 
+
+> Launches and runs the given block in a coroutine when this LifecycleOwner's Lifecycle is at least at state. The launched coroutine will be cancelled when the lifecycle state falls below state.
+
+We can collect a flow on the coroutines lifecycle scope and cancel it automatically if the lifecycle falls below that state, and will restart if it's in that state again.
+
+```kotlin
+private val job: Job by addOnRepeatingJob(Lifecycle.State.CREATED, simpleFlow()) {
+    // collected value from the fetchesDataFlow()
+  }.lazy()
 ```
 
 
