@@ -12,6 +12,7 @@ ext.versions = [
 
     kotlin           : '1.4.31',
     androidxAppcompat: '1.2.0',
+    coroutinesVersion: '1.4.3',
     lifecycle        : '2.4.0-alpha01',
 
     junit            : '4.13.1',
