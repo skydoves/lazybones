@@ -28,6 +28,7 @@ kotlin {
 
 dependencies {
   implementation "androidx.appcompat:appcompat:$versions.androidxAppcompat"
+  implementation "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle"
 
   testImplementation "junit:junit:$versions.junit"
   testImplementation "org.mockito:mockito-core:$versions.mockito"
