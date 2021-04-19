@@ -28,7 +28,16 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 
-/** returns a [Job] lazily via [Lazybones] delegate for invoking the [block] on the onStarted [lifecycleScope]. */
+/**
+ * @author skydoves (Jaewoong Eum)
+ *
+ * Returns a [Job] lazily via [Lazybones] delegate for invoking the [block] on the onStarted [lifecycleScope].
+ *
+ * @param lazyThreadSafetyMode Specifies how a [Lazy] instance synchronizes initialization among multiple threads.
+ * @param block A block that will be executed on the specific lifecycle.
+ *
+ * @return [Lazybones] A lazybones wrapper for creating a lifecycle-aware property.
+ */
 @JvmSynthetic
 @LazybonesWithNoInlines
 inline fun LifecycleOwner.launchOnStarted(
@@ -40,8 +49,15 @@ inline fun LifecycleOwner.launchOnStarted(
 }
 
 /**
- * Returns a [Job] lazily via [Lazybones] delegate for invoking the collecting [block] from the [flow]
- * on the onStarted [lifecycleScope].
+ * @author skydoves (Jaewoong Eum)
+ *
+ * Returns a [Job] lazily via [Lazybones] delegate for invoking a collected [block] from the [Flow] on the onStarted [lifecycleScope].
+ *
+ * @param flow A flow that will be collected on the specific lifecycle.
+ * @param lazyThreadSafetyMode Specifies how a [Lazy] instance synchronizes initialization among multiple threads.
+ * @param block A block that will be executed on the specific lifecycle.
+ *
+ * @return [Lazybones] A lazybones wrapper for creating a lifecycle-aware property.
  */
 @JvmSynthetic
 @LazybonesWithNoInlines
@@ -54,7 +70,16 @@ inline fun <T> LifecycleOwner.launchOnStarted(
   return Lazybones(this, lazy(lazyThreadSafetyMode) { job })
 }
 
-/** returns a [Job] lazily via [Lazybones] delegate for invoking the [block] on the onCreated [lifecycleScope]. */
+/**
+ * @author skydoves (Jaewoong Eum)
+ *
+ * Returns a [Job] lazily via [Lazybones] delegate for invoking the [block] on the onCreated [lifecycleScope].
+ *
+ * @param lazyThreadSafetyMode Specifies how a [Lazy] instance synchronizes initialization among multiple threads.
+ * @param block A block that will be executed on the specific lifecycle.
+ *
+ * @return [Lazybones] A lazybones wrapper for creating a lifecycle-aware property.
+ */
 @JvmSynthetic
 @LazybonesWithNoInlines
 inline fun LifecycleOwner.launchOnCreated(
@@ -66,8 +91,15 @@ inline fun LifecycleOwner.launchOnCreated(
 }
 
 /**
- * Returns a [Job] lazily via [Lazybones] delegate for invoking the collecting [block] from the [flow]
- * on the onCreated [lifecycleScope].
+ * @author skydoves (Jaewoong Eum)
+ *
+ * Returns a [Job] lazily via [Lazybones] delegate for invoking the collected [block] from the [Flow] on the onCreated [lifecycleScope].
+ *
+ * @param flow A flow that will be collected on the specific lifecycle.
+ * @param lazyThreadSafetyMode Specifies how a [Lazy] instance synchronizes initialization among multiple threads.
+ * @param block A block that will be executed on the specific lifecycle.
+ *
+ * @return [Lazybones] A lazybones wrapper for creating a lifecycle-aware property.
  */
 @JvmSynthetic
 @LazybonesWithNoInlines
@@ -80,7 +112,16 @@ inline fun <T> LifecycleOwner.launchOnCreated(
   return Lazybones(this, lazy(lazyThreadSafetyMode) { job })
 }
 
-/** returns a [Job] lazily via [Lazybones] delegate for invoking the [block] on the onResume [lifecycleScope]. */
+/**
+ * @author skydoves (Jaewoong Eum)
+ *
+ * Returns a [Job] lazily via [Lazybones] delegate for invoking the [block] on the onResume [lifecycleScope].
+ *
+ * @param lazyThreadSafetyMode Specifies how a [Lazy] instance synchronizes initialization among multiple threads.
+ * @param block A block that will be executed on the specific lifecycle.
+ *
+ * @return [Lazybones] A lazybones wrapper for creating a lifecycle-aware property.
+ */
 @JvmSynthetic
 @LazybonesWithNoInlines
 inline fun LifecycleOwner.launchOnResume(
@@ -92,8 +133,15 @@ inline fun LifecycleOwner.launchOnResume(
 }
 
 /**
- * Returns a [Job] lazily via [Lazybones] delegate for invoking the collecting [block] from the [flow]
- * on the onResume [lifecycleScope].
+ * @author skydoves (Jaewoong Eum)
+ *
+ * Returns a [Job] lazily via [Lazybones] delegate for invoking the collected [block] from the [Flow] on the onResume [lifecycleScope].
+ *
+ * @param flow A flow that will be collected on the specific lifecycle.
+ * @param lazyThreadSafetyMode Specifies how a [Lazy] instance synchronizes initialization among multiple threads.
+ * @param block A block that will be executed on the specific lifecycle.
+ *
+ * @return [Lazybones] A lazybones wrapper for creating a lifecycle-aware property.
  */
 @JvmSynthetic
 @LazybonesWithNoInlines
@@ -107,9 +155,17 @@ inline fun <T> LifecycleOwner.launchOnResume(
 }
 
 /**
+ * @author skydoves (Jaewoong Eum)
+ *
  * Collects from the flow when the lifecycle is at least [Lifecycle.State.STARTED] and
  *  STOPS the collection when it's STOPPED.
  * It automatically restarts collecting when the lifecycle is [Lifecycle.State.STARTED] again.
+ *
+ * @param state [Lifecycle.State] in which the coroutine running [block] starts.
+ * @param lazyThreadSafetyMode Specifies how a [Lazy] instance synchronizes initialization among multiple threads.
+ * @param block A block that will be executed on the specific lifecycle.
+ *
+ * @return [Lazybones] A lazybones wrapper for creating a lifecycle-aware property.
  */
 @JvmSynthetic
 @LazybonesWithNoInlines
@@ -123,9 +179,18 @@ inline fun LifecycleOwner.addOnRepeatingJob(
 }
 
 /**
+ * @author skydoves (Jaewoong Eum)
+ *
  * Collects from the flow when the lifecycle is at least [Lifecycle.State.STARTED] and
  *  STOPS the collection when it's STOPPED.
  * It automatically restarts collecting when the lifecycle is [Lifecycle.State.STARTED] again.
+ *
+ * @param flow A flow that will be collected on the specific lifecycle.
+ * @param state [Lifecycle.State] in which the coroutine running [block] starts.
+ * @param lazyThreadSafetyMode Specifies how a [Lazy] instance synchronizes initialization among multiple threads.
+ * @param block A block that will be executed on the specific lifecycle.
+ *
+ * @return [Lazybones] A lazybones wrapper for creating a lifecycle-aware property.
  */
 @JvmSynthetic
 @LazybonesWithNoInlines

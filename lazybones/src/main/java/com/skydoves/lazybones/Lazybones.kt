@@ -21,7 +21,16 @@ package com.skydoves.lazybones
 import androidx.lifecycle.LifecycleOwner
 import java.io.Serializable
 
-/** returns a [Lazybones] delegate for initializing lifecycle aware property. */
+/**
+ * @author skydoves (Jaewoong Eum)
+ *
+ * Returns a [Lazybones] delegate for initializing lifecycle aware property lazily.
+ *
+ * @param lazyThreadSafetyMode Specifies how a [Lazy] instance synchronizes initialization among multiple threads.
+ * @param initializer A instance initializer for initializing the [T] lazily.
+ *
+ * @return [Lazybones] A lazybones wrapper for creating a lifecycle-aware property.
+ */
 @JvmSynthetic
 @LazybonesWithNoInlines
 inline fun <reified T : Any> LifecycleOwner.lifecycleAware(
@@ -31,6 +40,15 @@ inline fun <reified T : Any> LifecycleOwner.lifecycleAware(
   return Lazybones(this, lazy(lazyThreadSafetyMode) { initializer() })
 }
 
+/**
+ * @author skydoves (Jaewoong Eum)
+ *
+ * Returns a [LifecycleAwareProperty] delegate for initializing lifecycle observable property instantly.
+ *
+ * @param value The initialization value.
+ *
+ * @return [LifecycleAwareProperty] A wrapper for creating lifecycle observable property.
+ */
 @JvmSynthetic
 inline fun <reified T : Any> LifecycleOwner.lifecycleAware(
   value: T
@@ -38,7 +56,12 @@ inline fun <reified T : Any> LifecycleOwner.lifecycleAware(
   return LifecycleAwareProperty(this, value)
 }
 
-/** [Lazybones] is a wrapper class having [Lazy] property for lifecycle aware. */
+/**
+ * [Lazybones] is a wrapper class that initializes [Lazy] property based on the lifecycle.
+ *
+ * @property lifecycleOwner A class that has an Android lifecycle for obesrving the lifecycle events.
+ * @property lazy A lazy initialization for initializing the value [T] lazily.
+ */
 class Lazybones<out T : Any> constructor(
   private val lifecycleOwner: LifecycleOwner,
   private val lazy: Lazy<T>
@@ -116,7 +139,7 @@ class Lazybones<out T : Any> constructor(
     this.lifecycleOwner.lifecycle.addObserver(observer)
   }
 
-  /** gets a lazy class. */
+  /** initializes the value lazily. */
   @LazybonesWithNoInlines
   fun lazy() = this.lazy
 
