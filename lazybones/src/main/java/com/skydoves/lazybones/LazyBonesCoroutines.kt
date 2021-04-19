@@ -22,6 +22,8 @@ import androidx.lifecycle.addRepeatingJob
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 
 /** returns a [Job] lazily via [Lazybones] delegate for invoking the [block] on the onStarted [lifecycleScope]. */
 @JvmSynthetic
@@ -31,6 +33,21 @@ inline fun LifecycleOwner.launchOnStarted(
   crossinline block: suspend CoroutineScope.() -> Unit
 ): Lazybones<Job> {
   val job = lifecycleScope.launchWhenStarted { block() }
+  return Lazybones(this, lazy(lazyThreadSafetyMode) { job })
+}
+
+/**
+ * Returns a [Job] lazily via [Lazybones] delegate for invoking the collecting [block] from the [flow]
+ * on the onStarted [lifecycleScope].
+ */
+@JvmSynthetic
+@LazybonesWithNoInlines
+inline fun <T> LifecycleOwner.launchOnStarted(
+  flow: Flow<T>,
+  lazyThreadSafetyMode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE,
+  crossinline block: (T) -> Unit
+): Lazybones<Job> {
+  val job = lifecycleScope.launchWhenStarted { flow.collect { block(it) } }
   return Lazybones(this, lazy(lazyThreadSafetyMode) { job })
 }
 
@@ -45,6 +62,21 @@ inline fun LifecycleOwner.launchOnCreated(
   return Lazybones(this, lazy(lazyThreadSafetyMode) { job })
 }
 
+/**
+ * Returns a [Job] lazily via [Lazybones] delegate for invoking the collecting [block] from the [flow]
+ * on the onCreated [lifecycleScope].
+ */
+@JvmSynthetic
+@LazybonesWithNoInlines
+inline fun <T> LifecycleOwner.launchOnCreated(
+  flow: Flow<T>,
+  lazyThreadSafetyMode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE,
+  crossinline block: (T) -> Unit
+): Lazybones<Job> {
+  val job = lifecycleScope.launchWhenCreated { flow.collect { block(it) } }
+  return Lazybones(this, lazy(lazyThreadSafetyMode) { job })
+}
+
 /** returns a [Job] lazily via [Lazybones] delegate for invoking the [block] on the onResume [lifecycleScope]. */
 @JvmSynthetic
 @LazybonesWithNoInlines
@@ -53,6 +85,21 @@ inline fun LifecycleOwner.launchOnResume(
   crossinline block: suspend CoroutineScope.() -> Unit
 ): Lazybones<Job> {
   val job = lifecycleScope.launchWhenResumed { block() }
+  return Lazybones(this, lazy(lazyThreadSafetyMode) { job })
+}
+
+/**
+ * Returns a [Job] lazily via [Lazybones] delegate for invoking the collecting [block] from the [flow]
+ * on the onResume [lifecycleScope].
+ */
+@JvmSynthetic
+@LazybonesWithNoInlines
+inline fun <T> LifecycleOwner.launchOnResume(
+  flow: Flow<T>,
+  lazyThreadSafetyMode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE,
+  crossinline block: (T) -> Unit
+): Lazybones<Job> {
+  val job = lifecycleScope.launchWhenResumed { flow.collect { block(it) } }
   return Lazybones(this, lazy(lazyThreadSafetyMode) { job })
 }
 
@@ -69,5 +116,22 @@ inline fun LifecycleOwner.addOnRepeatingJob(
   crossinline block: suspend CoroutineScope.() -> Unit
 ): Lazybones<Job> {
   val job = addRepeatingJob(state = state) { block() }
+  return Lazybones(this, lazy(lazyThreadSafetyMode) { job })
+}
+
+/**
+ * Collects from the flow when the lifecycle is at least [Lifecycle.State.STARTED] and
+ *  STOPS the collection when it's STOPPED.
+ * It automatically restarts collecting when the lifecycle is [Lifecycle.State.STARTED] again.
+ */
+@JvmSynthetic
+@LazybonesWithNoInlines
+inline fun <T> LifecycleOwner.addOnRepeatingJob(
+  state: Lifecycle.State,
+  flow: Flow<T>,
+  lazyThreadSafetyMode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE,
+  crossinline block: (T) -> Unit
+): Lazybones<Job> {
+  val job = addRepeatingJob(state = state) { flow.collect { block(it) } }
   return Lazybones(this, lazy(lazyThreadSafetyMode) { job })
 }
