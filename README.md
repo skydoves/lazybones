@@ -18,6 +18,7 @@
 > <p align="center">Ah... I'm a super lazy person. <br>I just want to declare initialization and disposition together. </p>
 
 ## Including in your project
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.skydoves/lazybones.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.skydoves%22%20AND%20a:%22lazybones%22)
 [![Jitpack](https://jitpack.io/v/skydoves/Lazybones.svg)](https://jitpack.io/#skydoves/Lazybones)
 ### Gradle 
 Add below codes to your **root** `build.gradle` file (not your module build.gradle file).
