@@ -15,17 +15,16 @@
 <img src="https://user-images.githubusercontent.com/24237865/72173497-0cb26280-341b-11ea-8d0a-5a000773600f.png" width="734" height="251"/>
 </p>
 
-> <p align="center">Ah... I'm a super lazy person. <br>I just want to initialize and declare of disposing it at the same time. </p>
+> <p align="center">Ah... I'm a super lazy person. <br>I just want to declare initialization and disposition together. </p>
 
 ## Including in your project
-[![Download](https://api.bintray.com/packages/devmagician/maven/lazybones/images/download.svg) ](https://bintray.com/devmagician/maven/lazybones/_latestVersion)
 [![Jitpack](https://jitpack.io/v/skydoves/Lazybones.svg)](https://jitpack.io/#skydoves/Lazybones)
 ### Gradle 
 Add below codes to your **root** `build.gradle` file (not your module build.gradle file).
 ```gradle
 allprojects {
     repositories {
-        jcenter()
+        mavenCentral()
     }
 }
 ```
@@ -33,6 +32,14 @@ And add a dependency code to your **module**'s `build.gradle` file.
 ```gradle
 dependencies {
     implementation "com.github.skydoves:lazybones:1.0.2"
+}
+```
+## SNAPSHOT 
+[![Lazybones](https://img.shields.io/static/v1?label=snapshot&message=lazybones&logo=apache%20maven&color=C71A36)](https://oss.sonatype.org/content/repositories/snapshots/com/github/skydoves/lazybones/) <br>
+Snapshots of the current development version of Lazybones are available, which track [the latest versions](https://oss.sonatype.org/content/repositories/snapshots/com/github/skydoves/lazybones/).
+```Gradle
+repositories {
+   maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 }
 ```
 
