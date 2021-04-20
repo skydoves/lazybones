@@ -47,7 +47,7 @@ repositories {
 
 ## Usage
 ### lifecycleAware
-We can initialize a lifecycle-aware object lazily using the `lifecycleAware` keyword. The `lifecycleAware` functionality can be used to register & unregister listeners, clear something show & dismiss and dispose of disposable objects as lifecycle changes by lifecycle owner(Activity, Fragment). If we want to initialize an object lazily, we should use it with `by` keyword and  `lazy()` method.
+We can initialize a lifecycle-aware object lazily using the `lifecycleAware` keyword. The `lifecycleAware` functionality can be used to register & unregister listeners, clear something, show & dismiss, and dispose of disposable objects as lifecycle changes by the lifecycleOwner(Activity, Fragment). If we want to initialize an object lazily, we should use it with `by` keyword and  `lazy()` method.
 ```kotlin
 val myDialog: Dialog by lifecycleAware { getDarkThemeDialog(baseContext) }
     .onCreate { this.show() } // show the dialog when the lifecycle's state is onCreate.
