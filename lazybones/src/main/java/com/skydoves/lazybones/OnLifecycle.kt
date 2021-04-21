@@ -19,7 +19,9 @@
 
 package com.skydoves.lazybones
 
-/** Defines an object that has an Android Lifecycle. */
+/**
+ * Defines states for representing Android lifecycle for creating lifecycle-aware properties.
+ */
 enum class On {
   CREATE,
   START,

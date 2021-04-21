@@ -57,6 +57,8 @@ inline fun <reified T : Any> LifecycleOwner.lifecycleAware(
 }
 
 /**
+ * @author skydoves (Jaewoong Eum)
+ *
  * [Lazybones] is a wrapper class that initializes [Lazy] property based on the lifecycle.
  *
  * @property lifecycleOwner A class that has an Android lifecycle for obesrving the lifecycle events.
@@ -67,83 +69,98 @@ class Lazybones<out T : Any> constructor(
   private val lazy: Lazy<T>
 ) : Serializable {
 
-  /** returns a [Lazybones] with an [On] lifecycle state and a [receiver]. */
+  /**
+   * Returns a [Lazybones] with an [On] lifecycle state and a [receiver].
+   *
+   * @param on Android lifecycle for creating lifecycle-aware properties.
+   * @param receiver A receiver that will be executed based on the lifecycle lazily.
+   */
   @JvmSynthetic
   @LazybonesWithNoInlines
-  internal fun on(on: On, receiver: T.() -> Unit) = apply {
-    addLifecycleObserver(on, receiver)
-    return this
-  }
+  internal fun on(on: On, receiver: T.() -> Unit) = addLifecycleObserver(on, receiver)
 
-  /** returns a [Lazybones] and the receiver will be aware of [On.CREATE] lifecycle state. */
+  /**
+   * Returns a [Lazybones] and the receiver will be aware of [On.CREATE] lifecycle state.
+   *
+   * @param receiver A receiver that will be executed based on the lifecycle lazily.
+   */
   @JvmSynthetic
   @LazybonesWithNoInlines
-  fun onCreate(receiver: T.() -> Unit) = apply {
-    addLifecycleObserver(On.CREATE, receiver)
-    return this
-  }
+  fun onCreate(receiver: T.() -> Unit) = addLifecycleObserver(On.CREATE, receiver)
 
-  /** returns a [Lazybones] and the receiver will be aware of [On.START] lifecycle state. */
+  /**
+   * Returns a [Lazybones] and the receiver will be aware of [On.START] lifecycle state.
+   *
+   * @param receiver A receiver that will be executed based on the lifecycle lazily.
+   */
   @JvmSynthetic
   @LazybonesWithNoInlines
-  fun onStart(receiver: T.() -> Unit) = apply {
-    addLifecycleObserver(On.START, receiver)
-    return this
-  }
+  fun onStart(receiver: T.() -> Unit) = addLifecycleObserver(On.START, receiver)
 
-  /** returns a [Lazybones] and the receiver will be aware of [On.RESUME] lifecycle state. */
+  /**
+   * Returns a [Lazybones] and the receiver will be aware of [On.RESUME] lifecycle state.
+   *
+   * @param receiver A receiver that will be executed based on the lifecycle lazily.
+   */
   @JvmSynthetic
   @LazybonesWithNoInlines
-  fun onResume(receiver: T.() -> Unit) = apply {
-    addLifecycleObserver(On.RESUME, receiver)
-    return this
-  }
+  fun onResume(receiver: T.() -> Unit) = addLifecycleObserver(On.RESUME, receiver)
 
-  /** returns a [Lazybones] and the receiver will be aware of [On.PAUSE] lifecycle state. */
+  /**
+   * Returns a [Lazybones] and the receiver will be aware of [On.PAUSE] lifecycle state.
+   *
+   * @param receiver A receiver that will be executed based on the lifecycle lazily.
+   */
   @JvmSynthetic
   @LazybonesWithNoInlines
-  fun onPause(receiver: T.() -> Unit) = apply {
-    addLifecycleObserver(On.PAUSE, receiver)
-    return this
-  }
+  fun onPause(receiver: T.() -> Unit) = addLifecycleObserver(On.PAUSE, receiver)
 
-  /** returns a [Lazybones] and the receiver will be aware of [On.STOP] lifecycle state. */
+  /**
+   * Returns a [Lazybones] and the receiver will be aware of [On.STOP] lifecycle state.
+   *
+   * @param receiver A receiver that will be executed based on the lifecycle lazily.
+   */
   @JvmSynthetic
   @LazybonesWithNoInlines
-  fun onStop(receiver: T.() -> Unit) = apply {
-    addLifecycleObserver(On.STOP, receiver)
-    return this
-  }
+  fun onStop(receiver: T.() -> Unit) = addLifecycleObserver(On.STOP, receiver)
 
-  /** returns a [Lazybones] and the receiver will be aware of [On.DESTROY] lifecycle state. */
+  /**
+   * Returns a [Lazybones] and the receiver will be aware of [On.DESTROY] lifecycle state.
+   *
+   * @param receiver A receiver that will be executed based on the lifecycle lazily.
+   */
   @JvmSynthetic
   @LazybonesWithNoInlines
-  fun onDestroy(receiver: T.() -> Unit) = apply {
-    addLifecycleObserver(On.DESTROY, receiver)
-    return this
-  }
+  fun onDestroy(receiver: T.() -> Unit) = addLifecycleObserver(On.DESTROY, receiver)
 
-  /** returns a [Lazybones] and the receiver will be aware of [On.ANY] lifecycle state. */
+  /**
+   * Returns a [Lazybones] and the receiver will be aware of [On.ANY] lifecycle state.
+   * This expression will execute the [receiver] on every lifecycle state.
+   *
+   * @param receiver A receiver that will be executed based on the every lifecycle lazily.
+   */
   @JvmSynthetic
   @LazybonesWithNoInlines
-  fun onAny(receiver: T.() -> Unit) = apply {
-    addLifecycleObserver(On.ANY, receiver)
-    return this
-  }
+  fun onAny(receiver: T.() -> Unit) = addLifecycleObserver(On.ANY, receiver)
 
-  /** adds a lifecycle observer based on [On] lifecycle state internally. */
+  /**
+   * Adds a lifecycle observer based on [On] lifecycle state internally.
+   *
+   * @param on Android lifecycle for creating lifecycle-aware properties.
+   * @param receiver A receiver that will be executed based on the every lifecycle lazily.
+   */
   @JvmSynthetic
-  private fun addLifecycleObserver(on: On, receiver: T.() -> Unit) {
+  private fun addLifecycleObserver(on: On, receiver: T.() -> Unit) = apply {
     val observer = on.getOnLifecycleObserver<T>()
     observer.registerLazyProperty(this.lazy, receiver)
     this.lifecycleOwner.lifecycle.addObserver(observer)
   }
 
-  /** initializes the value lazily. */
+  /** initializes the lifecycle-aware property lazily. */
   @LazybonesWithNoInlines
   fun lazy() = this.lazy
 
-  /** gets a value from the lazy class. */
+  /** gets property value from the lazy class. */
   fun value() = this.lazy.value
 
   override fun toString() = "Lazybones(" +
