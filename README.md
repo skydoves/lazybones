@@ -4,7 +4,8 @@
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
   <a href="https://android-arsenal.com/api?level=15"><img alt="API" src="https://img.shields.io/badge/API-15%2B-brightgreen.svg?style=flat"/></a>
   <a href="https://github.com/skydoves/Lazybones/actions/workflows/android.yml"><img alt="Build Status" src="https://github.com/skydoves/Lazybones/actions/workflows/android.yml/badge.svg"/></a>
-  <a href="https://skydoves.github.io/libraries/lazybones/javadoc/lazybones/com.skydoves.lazybones/index.html"><img alt="Javadoc" src="https://img.shields.io/badge/Javadoc-Lazybones-yellow"/></a>
+  <a href="https://github.com/skydoves"><img alt="Profile" src="https://skydoves.github.io/badges/skydoves.svg"/></a>
+  <a href="https://skydoves.github.io/libraries/lazybones/html/lazybones/com.skydoves.lazybones/index.html"><img alt="Javadoc" src="https://skydoves.github.io/badges/javadoc-lazybones.svg"/></a>
 </p>
 
 <p align="center">
@@ -18,6 +19,7 @@
 > <p align="center">Ah... I'm a super lazy person. <br>I just want to declare initialization and disposition together. </p>
 
 ## Including in your project
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.skydoves/lazybones.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.skydoves%22%20AND%20a:%22lazybones%22)
 [![Jitpack](https://jitpack.io/v/skydoves/Lazybones.svg)](https://jitpack.io/#skydoves/Lazybones)
 ### Gradle 
 Add below codes to your **root** `build.gradle` file (not your module build.gradle file).
@@ -45,29 +47,59 @@ repositories {
 
 ## Usage
 ### lifecycleAware
-We can initialize a lifecycle-aware object lazily using the `lifecycleAware` keyword. The `lifecycleAware` functionality can be used to register & unregister listeners, clear something show & dismiss and dispose of disposable objects as lifecycle changes by lifecycle owner(Activity, Fragment). If we want to initialize an object lazily, we should use it with `by` keyword and  `lazy()` method.
+We can initialize a lifecycle-aware object lazily using the `lifecycleAware` keyword. The `lifecycleAware` functionality can be used to register & unregister listeners, clear something, show & dismiss, and dispose of disposable objects as lifecycle changes by the lifecycleOwner(Activity, Fragment). If we want to initialize an object lazily, we should use it with `by` keyword and  `lazy()` method.
 ```kotlin
 val myDialog: Dialog by lifecycleAware { getDarkThemeDialog(baseContext) }
     .onCreate { this.show() } // show the dialog when the lifecycle's state is onCreate.
     .onDestroy { this.dismiss() } // dismiss the dialog when the lifecycle's state is onDestroy.
     .lazy() // initlize the dialog lazily.
 ```
-In the `onCreate` and `onDestroy` lambda function, we can omit the `this` keyword.<br>
-So we can use like below. In the below example, the `MediaPlayer` will be initialized and `start` on the `onCreate` state of the lifecycle, and it will be invoked `pause()`, `stop()`, or `release()` base on the state of the lifecycle.
+In the `onCreate` and `onDestroy` lambda function, we can omit the `this` keyword. In the below example, the `MediaPlayer` will be initialized and the `start()` will be invoked on the `onCreate` state of the lifecycle. And the `pause()`, `stop()`, or `release()` will be invoked based on the state of the lifecycle.
 ```kotlin
-  private val mediaPlayer: MediaPlayer by lifecycleAware {
-    MediaPlayer.create(this, ResourceUtils.getBgmResource(prayerSession.type))
-  }.onCreate {
-    isLooping = true
-    start()
-  }.onStop {
-    pause()
-  }.onResume {
-    start()
-  }.onDestroy {
-    stop()
-    release()
-  }.lazy()
+private val mediaPlayer: MediaPlayer by lifecycleAware {
+  MediaPlayer.create(this, R.raw.bgm3)
+}.onCreate {
+  isLooping = true
+  start()
+}.onStop {
+  pause()
+}.onResume {
+  start()
+}.onDestroy {
+  stop()
+  release()
+}.lazy()
+```
+The above code works the same as the below codes.
+```kotlin
+private val mediaPlayer: MediaPlayer by lazy { MediaPlayer.create(this, R.raw.bgm3) }
+
+override fun onCreate(savedInstanceState: Bundle?) {
+  super.onCreate(savedInstanceState)
+  mediaPlayer.isLooping = true
+  mediaPlayer.start()
+}
+
+override fun onPause() {
+  super.onPause()
+  mediaPlayer.pause()
+}
+
+override fun onStop() {
+  super.onStop()
+  mediaPlayer.pause()
+}
+
+override fun onResume() {
+  super.onResume()
+  mediaPlayer.start()
+}
+
+override fun onDestroy() {
+  super.onDestroy()
+  mediaPlayer.stop()
+  mediaPlayer.release()
+}
 ```
 
 #### CompositeDisposable in RxJava2
@@ -202,7 +234,7 @@ private val job: Job by launchOnStarted(repository.fetchesDataFlow()) {
 ### addOnRepeatingJob
 The [addRepeatingJob](https://developer.android.com/reference/kotlin/androidx/lifecycle/package-summary#addrepeatingjob) extension has been added in the new version of the  [Lifecycle-runtime-ktx]((https://developer.android.com/jetpack/androidx/releases/lifecycle)). 
 
-> Launches and runs the given block in a coroutine when this LifecycleOwner's Lifecycle is at least at state. The launched coroutine will be cancelled when the lifecycle state falls below state.
+> Launches and runs the given block in a coroutine when this LifecycleOwner's Lifecycle is at least at state. The launched coroutine will be canceled when the lifecycle state falls below the state.
 
 We can collect a flow on the coroutines lifecycle scope and cancel it automatically if the lifecycle falls below that state, and will restart if it's in that state again.
 
