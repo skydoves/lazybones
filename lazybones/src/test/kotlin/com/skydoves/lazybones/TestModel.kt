@@ -16,7 +16,7 @@
 
 package com.skydoves.lazybones
 
-data class TestModel(
+internal data class TestModel(
   var tag: String = "skydoves",
   var number: Int = 10
 )

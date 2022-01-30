@@ -18,7 +18,7 @@ package com.skydoves.lazybones
 
 import androidx.fragment.app.FragmentActivity
 
-class UnitTestActivity : FragmentActivity() {
+internal class UnitTestActivity : FragmentActivity() {
   val testModel by lifecycleAware { TestModel() }
     .onCreate { number = 15 }
     .onStart { number = 20 }
