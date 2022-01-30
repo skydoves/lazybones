@@ -22,7 +22,7 @@ package com.skydoves.lazybones
 /**
  * Defines states for representing Android lifecycle for creating lifecycle-aware properties.
  */
-enum class On {
+public enum class On {
   CREATE,
   START,
   RESUME,
