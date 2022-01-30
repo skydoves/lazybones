@@ -22,5 +22,6 @@ ext.versions = [
     robolectric      : '4.4',
 
     // for demo
+    fragmentVersion  : '1.4.0',
     balloon          : '1.4.1'
 ]

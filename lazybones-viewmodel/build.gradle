@@ -13,13 +13,6 @@ android {
     targetSdkVersion versions.compileSdk
     versionCode versions.versionCode
     versionName versions.versionName
-    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-  }
-
-  testOptions {
-    unitTests {
-      includeAndroidResources = true
-    }
   }
 
   buildFeatures {
@@ -32,11 +25,8 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 }
 
 dependencies {
+  implementation "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin"
   implementation "androidx.appcompat:appcompat:$versions.androidxAppcompat"
-  implementation "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle"
-
-  testImplementation "junit:junit:$versions.junit"
-  testImplementation "org.robolectric:robolectric:$versions.robolectric"
 }
 
 apply plugin: "com.vanniktech.maven.publish"

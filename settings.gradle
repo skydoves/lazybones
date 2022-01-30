@@ -1,2 +1,2 @@
-include ':app', ':lazybones'
 rootProject.name='LazybonesDemo'
+include ':app', ':lazybones', ':lazybones-viewmodel'

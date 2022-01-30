@@ -14,36 +14,23 @@
  * limitations under the License.
  */
 
-@file:Suppress("unused")
-
 package com.skydoves.lazybonesdemo
 
-import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.skydoves.balloon.Balloon
-import com.skydoves.balloon.showAlignTop
-import com.skydoves.lazybones.lifecycleAware
-import com.skydoves.lazybonesdemo.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+/**
+ * Developed by skydoves on 2022-01-30.
+ * Copyright (c) 2017 skydoves rights reserved.
+ */
+class SecondActivity : AppCompatActivity() {
 
-  private val binding: ActivityMainBinding by lifecycleAware {
-    ActivityMainBinding.inflate(layoutInflater)
-  }.lazy()
-
-  private val balloon: Balloon by lifecycleAware { BalloonUtils.getProfileBalloon(baseContext) }
-    .onCreate { binding.button.showAlignTop(this) }
-    .onDestroy { dismiss() }
-    .lazy()
+  private val mainViewModel by viewModels<SecondViewModel>()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(binding.root)
 
-    binding.button.setOnClickListener {
-      val intent = Intent(this, SecondActivity::class.java)
-      startActivity(intent)
-    }
+    mainViewModel
   }
 }
