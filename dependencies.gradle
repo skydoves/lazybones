@@ -19,7 +19,6 @@ ext.versions = [
     junit            : '4.13.1',
     runner           : '1.2.0',
     junitExt         : '1.1.1',
-    mockito          : '3.5.13',
     robolectric      : '4.4',
 
     // for demo

@@ -36,7 +36,6 @@ dependencies {
   testImplementation "junit:junit:$versions.junit"
   testImplementation "org.mockito:mockito-core:$versions.mockito"
   testImplementation "org.robolectric:robolectric:$versions.robolectric"
-  testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:4.0.0"
 }
 
 apply plugin: "com.vanniktech.maven.publish"
