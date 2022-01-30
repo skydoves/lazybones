@@ -1,9 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'binary-compatibility-validator'
+
 apply from: "$rootDir/dependencies.gradle"
 
 android {
   compileSdkVersion versions.compileSdk
+
   defaultConfig {
     applicationId "com.skydoves.lazybonesdemo"
     minSdkVersion versions.demoMinSdk
@@ -11,9 +14,11 @@ android {
     versionCode versions.versionCode
     versionName versions.versionName
   }
+
   buildFeatures {
     viewBinding true
   }
+
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_11
     targetCompatibility JavaVersion.VERSION_11

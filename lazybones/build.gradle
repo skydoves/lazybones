@@ -5,6 +5,7 @@ apply from: "$rootDir/dependencies.gradle"
 
 android {
   compileSdkVersion versions.compileSdk
+
   defaultConfig {
     minSdkVersion versions.minSdk
     targetSdkVersion versions.compileSdk
@@ -12,11 +13,13 @@ android {
     versionName versions.versionName
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
+
   testOptions {
     unitTests {
       includeAndroidResources = true
     }
   }
+
   buildFeatures {
     buildConfig false
   }

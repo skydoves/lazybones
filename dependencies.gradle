@@ -9,6 +9,7 @@ ext.versions = [
     spotlessGradle   : '6.1.0',
     ktlintGradle     : '0.41.0',
     dokkaGradle      : '1.6.10',
+    binaryValidator  : '0.8.0',
     mavenPublish     : '0.18.0',
 
     kotlin           : '1.5.31',
