@@ -20,10 +20,11 @@
 > <p align="center">Ah... I'm a super lazy person. <br>I just want to declare initialization and disposition together. </p>
 
 ## Including in your project
+
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.skydoves/lazybones.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.skydoves%22%20AND%20a:%22lazybones%22)
-[![Jitpack](https://jitpack.io/v/skydoves/Lazybones.svg)](https://jitpack.io/#skydoves/Lazybones)
+
 ### Gradle 
-Add below codes to your **root** `build.gradle` file (not your module build.gradle file).
+Add the codes below to your **root** `build.gradle` file (not your module build.gradle file).
 ```gradle
 allprojects {
     repositories {
@@ -31,7 +32,9 @@ allprojects {
     }
 }
 ```
-And add a dependency code to your **module**'s `build.gradle` file.
+
+And add the dependency below to your **module**'s `build.gradle` file.
+
 ```gradle
 dependencies {
     implementation "com.github.skydoves:lazybones:1.0.2"
@@ -48,30 +51,35 @@ repositories {
 
 ## Usage
 ### lifecycleAware
-We can initialize a lifecycle-aware object lazily using the `lifecycleAware` keyword. The `lifecycleAware` functionality can be used to register & unregister listeners, clear something, show & dismiss, and dispose of disposable objects as lifecycle changes by the lifecycleOwner(Activity, Fragment). If we want to initialize an object lazily, we should use it with `by` keyword and  `lazy()` method.
+You can initialize a lifecycle-aware object lazily with the `lifecycleAware` extension. The `lifecycleAware` can be used to register & unregister listeners, initailize & clear, show & dismiss, and dispose objects following the lifecycle changes of the `lifecycleOwner`. With the `by` keyword and `lazy()` methhod, you can initialize an object lazily as the following example:
+
 ```kotlin
 val myDialog: Dialog by lifecycleAware { getDarkThemeDialog(baseContext) }
     .onCreate { this.show() } // show the dialog when the lifecycle's state is onCreate.
     .onDestroy { this.dismiss() } // dismiss the dialog when the lifecycle's state is onDestroy.
     .lazy() // initlize the dialog lazily.
 ```
-In the `onCreate` and `onDestroy` lambda function, we can omit the `this` keyword. In the below example, the `MediaPlayer` will be initialized and the `start()` will be invoked on the `onCreate` state of the lifecycle. And the `pause()`, `stop()`, or `release()` will be invoked based on the state of the lifecycle.
+
+In the `onCreate` and `onDestroy` lambda functions, you can omit the `this` keyword. In the following example, the `MediaPlayer` will be initialized and the `start()` will be executed on the `onCreate` state of the lifecycle. The `pause()`, `stop()`, and `release()` methods will be executed following the next lifecycle state.
+
 ```kotlin
 private val mediaPlayer: MediaPlayer by lifecycleAware {
-  MediaPlayer.create(this, R.raw.bgm3)
+    MediaPlayer.create(this, R.raw.bgm3)
 }.onCreate {
-  isLooping = true
-  start()
+    isLooping = true
+    start()
 }.onStop {
-  pause()
+    pause()
 }.onResume {
-  start()
+    start()
 }.onDestroy {
-  stop()
-  release()
-}.lazy()
+    stop()
+    release()
+}.lazy() // initialize the instance lazily.
 ```
-The above code works the same as the below codes.
+
+The code above works the same as the following codes:
+
 ```kotlin
 private val mediaPlayer: MediaPlayer by lazy { MediaPlayer.create(this, R.raw.bgm3) }
 
@@ -104,16 +112,21 @@ override fun onDestroy() {
 ```
 
 #### CompositeDisposable in RxJava2
-Here is an example of `CompositeDisposable` in RxJava2. <br>
-At the same time as initializing lazily the CompositeDisposable, the `dispose()` method will be <br>invoked automatically when onDestroy.
+
+You can utilize Lazybones with RxJava as the following example:
 
 ```kotlin
 val compositeDisposable by lifecycleAware { CompositeDisposable() }
     .onDestroy { dispose() } // call the dispose() method when onDestroy this activity.
     .lazy() // initialize a CompositeDisposable lazily.
 ```
-#### Lifecycle related methods
-We can invoke lambda functions as lifecycle changes and here are eight lifecycle-related methods of `lifecycleAware`.
+
+As the above example, you can initialize and dispose of `CompositeDisposable` on the same method chain of the `lifecycleAware` extension.
+
+#### Lifecycle Relevant Extensions
+
+We can execute lambda functions following lifecycle changes and here are lifecycle relevant methods for the `lifecycleAware` extension.
+
 ```kotlin
 .onCreate { } // the lambda will be invoked when onCreate.
 .onStart { } // the lambda will be invoked when onStart.
@@ -121,14 +134,15 @@ We can invoke lambda functions as lifecycle changes and here are eight lifecycle
 .onPause { } // the lambda will be invoked when onPause.
 .onStop { } // the lambda will be invoked when onStop.
 .onDestroy { }  // the lambda will be invoked when onDestroy.
-.onAny { } // the lambda will be invoked whenever the lifecycle state is changed.
 .on(On.Create) { } // we can set the lifecycle state manually as an attribute.
 ```
 
 #### Usages in the non-lifecycle owner class
-The `lifecycleAware` is an extension of `lifecycleOwner` so it can be used on non- lifecycle-owner classes.
+
+The `lifecycleAware` is an extension of the `lifecycleOwner`, so you can use it on the `LifecycleOwner` instance as the following:
+
 ```kotlin
-class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
+class SomeClass(lifecycleOwner: LifecycleOwner) {
 
   private val compositeDisposable by lifecycleOwner.lifecycleAware { CompositeDisposable() }
     .onDestroy { it.dispose() }
@@ -137,20 +151,25 @@ class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
    ...
 ```
 
-### LifecycleAwareProperty
-If we don't need to initialize lazily, here is a more simple way. We can declare a `LifecycleAwareProperty` using the `lifecycleAware` keyword. The attribute value will not be initialized lazily. so we don't need to use it with `by` keyword and `lazy()` method.<br>
+### Initialize Immediately with LifecycleAware
+
+We can also initialize the lifecycle-aware property with the following example:
+
 ```kotlin
 private val lifecycleAwareProperty = lifecycleAware(CompositeDisposable())
     // observe lifecycle's state and call the dispose() method when onDestroy  
     .observeOnDestroy { dispose() }
 ```
-And we can access the original property via the `value` field.
+
+The `CompositeDisposable` will be initialized immediately, and it will be disposed of on the `observeOnDestroy` scope. Also, you can access the value of the property via the `value` field.
+
 ```kotlin
 lifecycleAwareProperty.value.add(disposable)
 lifecycleAwareProperty.value.dispose()
 ```
 
-We can observe the lifecycle changes using `observe_` method.<br>
+You can observe the lifecycle changes with `observe_` methods.<br>
+
 ```kotlin
 class MainActivity : AppCompatActivity() {
 
@@ -162,7 +181,9 @@ class MainActivity : AppCompatActivity() {
 
     ...
 ```
-Here is the kotlin DSL way.
+
+You can initialize them with the Kotlin DSL way as the following:
+
 ```kotlin
 private val lifecycleAwareProperty = lifecycleAware(getDarkThemeDialog())
     .observe {
@@ -170,12 +191,15 @@ private val lifecycleAwareProperty = lifecycleAware(getDarkThemeDialog())
       onResume { restart() }
       onDestroy { dismiss() }
     }
+
 ```
 
-#### Using in the non-lifecycle owner class
-The `lifecycleAware` is an extension of `lifecycleOwner` so it can be used on non- lifecycle-owner classes.
+#### Usages in the non-lifecycle owner class
+
+The `lifecycleAware` is an extension of the `lifecycleOwner`, so you can use it on the `LifecycleOwner` instance as the following:
+
 ```kotlin
-class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
+class SomeClass(lifecycleOwner: LifecycleOwner) {
 
   private val TAG = MainViewModel::class.java.simpleName
   private val lifecycleAwareProperty = lifecycleOwner.lifecycleAware(Rabbit())
@@ -193,58 +217,6 @@ class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
   }
   ...
 ```
-
-### Coroutines and Flow
-Add a dependency code to your module's `build.gradle` file.
-```gradle
-dependencies {
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle" // over the 2.4.0-alpha01
-}
-```
-
-We can apply to the coroutines `lifecycleScope` for launching suspend functions. The [Lifecycle-runtime-ktx](https://developer.android.com/jetpack/androidx/releases/lifecycle) supports `launchWhenStarted`, `launchWhenCreated`, and `launchWhenResumed` for the `lifecycleScope`. However those coroutines jobs will not be canceled automatically, so they must be `canceled` on a specific lifecycle. And we can declare canceling together with initialization like the below.
-
-```kotlin
-private val job: Job by lifecycleAware {
-    lifecycleScope.launchWhenCreated {
-      // call suspend
-    }
-  }.onDestroy {
-    cancel() // cancel when the lifecycle is destroyed.
-  }.lazy()
-```
-We can reduce the above codes like the below using the `launchOnStarted`, `launchOnCreated`, and `launchOnResume`.
-
-```kotlin
-private val job: Job by launchOnStarted {
-    // call suspend
-  }.onDestroy {
-    cancel()
-  }.lazy()
-```
-If we need to collect one flow on the coroutines lifecycle scope, we can use like the below.
-
-```kotlin
-private val job: Job by launchOnStarted(repository.fetchesDataFlow()) {
-    // collected value from the repository.fetchesDataFlow()
-  }.onDestroy {
-    cancel()
-  }.lazy()
-```
-
-### addOnRepeatingJob
-The [addRepeatingJob](https://developer.android.com/reference/kotlin/androidx/lifecycle/package-summary#addrepeatingjob) extension has been added in the new version of the  [Lifecycle-runtime-ktx]((https://developer.android.com/jetpack/androidx/releases/lifecycle)). 
-
-> Launches and runs the given block in a coroutine when this LifecycleOwner's Lifecycle is at least at state. The launched coroutine will be canceled when the lifecycle state falls below the state.
-
-We can collect a flow on the coroutines lifecycle scope and cancel it automatically if the lifecycle falls below that state, and will restart if it's in that state again.
-
-```kotlin
-private val job: Job by addOnRepeatingJob(Lifecycle.State.CREATED, simpleFlow()) {
-    // collected value from the fetchesDataFlow()
-  }.lazy()
-```
-
 
 ## Find this library useful? :heart:
 Support it by joining __[stargazers](https://github.com/skydoves/Lazybones/stargazers)__ for this repository. :star:<br>
