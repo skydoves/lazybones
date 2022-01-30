@@ -83,13 +83,6 @@ class LifecycleAwareProperty<T : Any> constructor(
     addLifecycleObserver(On.DESTROY, receiver)
   }
 
-  /** observes on the [On.ANY] lifecycle state. */
-  @JvmSynthetic
-  @LazybonesWithNoInlines
-  fun observeOnAny(receiver: T.() -> Unit) = apply {
-    addLifecycleObserver(On.ANY, receiver)
-  }
-
   /** adds a lifecycle observer based on [On] lifecycle state internally. */
   @JvmSynthetic
   private fun addLifecycleObserver(on: On, receiver: T.() -> Unit) {
@@ -149,13 +142,6 @@ class LifecycleAwareProperty<T : Any> constructor(
     @JvmSynthetic
     fun onDestroy(receiver: T.() -> Unit) = apply {
       this.lifecycleAwareProperty.addLifecycleObserver(On.DESTROY, receiver)
-    }
-
-    /** observes on the [On.ANY] lifecycle state. */
-    @LazybonesWithNoInlines
-    @JvmSynthetic
-    fun onAny(receiver: T.() -> Unit) = apply {
-      this.lifecycleAwareProperty.addLifecycleObserver(On.ANY, receiver)
     }
 
     /** returns a new instance of [LifecycleAwareProperty]. */

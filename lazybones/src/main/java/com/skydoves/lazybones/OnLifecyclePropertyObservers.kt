@@ -20,62 +20,60 @@
 
 package com.skydoves.lazybones
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 
 /** A lifecycle observer for performing receiver when the lifecycle state is [On.CREATE]. */
 internal class OnCreatePropertyObserver<T : Any>
 constructor(private val value: T) : OnLifecyclePropertyObserver<T>(value) {
-  @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-  fun onCreate() = super.propertyObserver.onChanged(this.value)
+  override fun onCreate(owner: LifecycleOwner) {
+    super.propertyObserver.onChanged(this.value)
+  }
 }
 
 /** A lifecycle observer for performing receiver when the lifecycle state is [On.START]. */
 internal class OnStartPropertyObserver<T : Any>
 constructor(private val value: T) : OnLifecyclePropertyObserver<T>(value) {
-  @OnLifecycleEvent(Lifecycle.Event.ON_START)
-  fun onStart() = super.propertyObserver.onChanged(this.value)
+  override fun onStart(owner: LifecycleOwner) {
+    super.propertyObserver.onChanged(this.value)
+  }
 }
 
 /** A lifecycle observer for performing receiver when the lifecycle state is [On.RESUME]. */
 internal class OnResumePropertyObserver<T : Any>
 constructor(private val value: T) : OnLifecyclePropertyObserver<T>(value) {
-  @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-  fun onResume() = super.propertyObserver.onChanged(this.value)
+  override fun onResume(owner: LifecycleOwner) {
+    super.propertyObserver.onChanged(this.value)
+  }
 }
 
 /** A lifecycle observer for performing receiver when the lifecycle state is [On.PAUSE]. */
 internal class OnPausePropertyObserver<T : Any>
 constructor(private val value: T) : OnLifecyclePropertyObserver<T>(value) {
-  @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-  fun onPause() = super.propertyObserver.onChanged(this.value)
+  override fun onPause(owner: LifecycleOwner) {
+    super.propertyObserver.onChanged(this.value)
+  }
 }
 
 /** A lifecycle observer for performing receiver when the lifecycle state is [On.STOP]. */
 internal class OnStopPropertyObserver<T : Any>
 constructor(private val value: T) : OnLifecyclePropertyObserver<T>(value) {
-  @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-  fun onStop() = super.propertyObserver.onChanged(this.value)
+  override fun onStop(owner: LifecycleOwner) {
+    super.propertyObserver.onChanged(this.value)
+  }
 }
 
 /** A lifecycle observer for performing receiver when the lifecycle state is [On.DESTROY]. */
 internal class OnDestroyPropertyObserver<T : Any>
 constructor(private val value: T) : OnLifecyclePropertyObserver<T>(value) {
-  @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-  fun onDestroy() = super.propertyObserver.onChanged(this.value)
-}
-
-/** A lifecycle observer for performing receiver when the lifecycle state is [On.ANY]. */
-internal class OnAnyPropertyObserver<T : Any>
-constructor(private val value: T) : OnLifecyclePropertyObserver<T>(value) {
-  @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-  fun onAny() = super.propertyObserver.onChanged(this.value)
+  override fun onDestroy(owner: LifecycleOwner) {
+    super.propertyObserver.onChanged(this.value)
+  }
 }
 
 /** An abstract observer for delegating lazy and receiver. */
 internal abstract class OnLifecyclePropertyObserver<T : Any>
-constructor(private val value: T) : LifecycleObserver {
+constructor(private val value: T) : DefaultLifecycleObserver {
 
   lateinit var propertyObserver: LifecycleAwarePropertyObserver<T>
 

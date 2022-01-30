@@ -134,16 +134,6 @@ class Lazybones<out T : Any> constructor(
   fun onDestroy(receiver: T.() -> Unit) = addLifecycleObserver(On.DESTROY, receiver)
 
   /**
-   * Returns a [Lazybones] and the receiver will be aware of [On.ANY] lifecycle state.
-   * This expression will execute the [receiver] on every lifecycle state.
-   *
-   * @param receiver A receiver that will be executed based on the every lifecycle lazily.
-   */
-  @JvmSynthetic
-  @LazybonesWithNoInlines
-  fun onAny(receiver: T.() -> Unit) = addLifecycleObserver(On.ANY, receiver)
-
-  /**
    * Adds a lifecycle observer based on [On] lifecycle state internally.
    *
    * @param on Android lifecycle for creating lifecycle-aware properties.

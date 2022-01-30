@@ -34,7 +34,6 @@ class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
       .observeOnPause { Log.d(TAG, "OnPause: $this") }
       .observeOnStop { Log.d(TAG, "OnStop: $this") }
       .observeOnDestroy { Log.d(TAG, "OnDestroy: $this") }
-      .observeOnAny { }
       .observeOn(On.CREATE) { }
   }
 
