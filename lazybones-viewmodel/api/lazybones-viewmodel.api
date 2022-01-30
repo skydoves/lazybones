@@ -1,0 +1,7 @@
+public final class com/skydoves/lazybones/viewmodel/ViewModelLifecycleKt {
+	public static final fun getViewModelLifecycleOwner (Landroidx/lifecycle/ViewModel;)Lcom/skydoves/lazybones/viewmodel/ViewModelLifecycleOwner;
+}
+
+public abstract interface class com/skydoves/lazybones/viewmodel/ViewModelLifecycleOwner : androidx/lifecycle/LifecycleOwner {
+}
+
