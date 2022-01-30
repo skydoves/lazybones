@@ -34,7 +34,6 @@ dependencies {
   implementation "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle"
 
   testImplementation "junit:junit:$versions.junit"
-  testImplementation "org.mockito:mockito-core:$versions.mockito"
   testImplementation "org.robolectric:robolectric:$versions.robolectric"
 }
 
