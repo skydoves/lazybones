@@ -33,7 +33,7 @@ import java.io.Serializable
  */
 @JvmSynthetic
 @LazybonesWithNoInlines
-inline fun <reified T : Any> LifecycleOwner.lifecycleAware(
+public inline fun <reified T : Any> LifecycleOwner.lifecycleAware(
   lazyThreadSafetyMode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE,
   noinline initializer: () -> T,
 ): Lazybones<T> {
@@ -50,7 +50,7 @@ inline fun <reified T : Any> LifecycleOwner.lifecycleAware(
  * @return [LifecycleAwareProperty] A wrapper for creating lifecycle observable property.
  */
 @JvmSynthetic
-inline fun <reified T : Any> LifecycleOwner.lifecycleAware(
+public inline fun <reified T : Any> LifecycleOwner.lifecycleAware(
   value: T
 ): LifecycleAwareProperty<T> {
   return LifecycleAwareProperty(this, value)
@@ -64,7 +64,7 @@ inline fun <reified T : Any> LifecycleOwner.lifecycleAware(
  * @property lifecycleOwner A class that has an Android lifecycle for obesrving the lifecycle events.
  * @property lazy A lazy initialization for initializing the value [T] lazily.
  */
-class Lazybones<out T : Any> constructor(
+public class Lazybones<out T : Any> constructor(
   private val lifecycleOwner: LifecycleOwner,
   private val lazy: Lazy<T>
 ) : Serializable {
@@ -77,7 +77,7 @@ class Lazybones<out T : Any> constructor(
    */
   @JvmSynthetic
   @LazybonesWithNoInlines
-  internal fun on(on: On, receiver: T.() -> Unit) = addLifecycleObserver(on, receiver)
+  internal fun on(on: On, receiver: T.() -> Unit): Lazybones<T> = addLifecycleObserver(on, receiver)
 
   /**
    * Returns a [Lazybones] and the receiver will be aware of [On.CREATE] lifecycle state.
@@ -86,7 +86,8 @@ class Lazybones<out T : Any> constructor(
    */
   @JvmSynthetic
   @LazybonesWithNoInlines
-  fun onCreate(receiver: T.() -> Unit) = addLifecycleObserver(On.CREATE, receiver)
+  public fun onCreate(receiver: T.() -> Unit): Lazybones<T> =
+    addLifecycleObserver(On.CREATE, receiver)
 
   /**
    * Returns a [Lazybones] and the receiver will be aware of [On.START] lifecycle state.
@@ -95,7 +96,8 @@ class Lazybones<out T : Any> constructor(
    */
   @JvmSynthetic
   @LazybonesWithNoInlines
-  fun onStart(receiver: T.() -> Unit) = addLifecycleObserver(On.START, receiver)
+  public fun onStart(receiver: T.() -> Unit): Lazybones<T> =
+    addLifecycleObserver(On.START, receiver)
 
   /**
    * Returns a [Lazybones] and the receiver will be aware of [On.RESUME] lifecycle state.
@@ -104,7 +106,8 @@ class Lazybones<out T : Any> constructor(
    */
   @JvmSynthetic
   @LazybonesWithNoInlines
-  fun onResume(receiver: T.() -> Unit) = addLifecycleObserver(On.RESUME, receiver)
+  public fun onResume(receiver: T.() -> Unit): Lazybones<T> =
+    addLifecycleObserver(On.RESUME, receiver)
 
   /**
    * Returns a [Lazybones] and the receiver will be aware of [On.PAUSE] lifecycle state.
@@ -113,7 +116,8 @@ class Lazybones<out T : Any> constructor(
    */
   @JvmSynthetic
   @LazybonesWithNoInlines
-  fun onPause(receiver: T.() -> Unit) = addLifecycleObserver(On.PAUSE, receiver)
+  public fun onPause(receiver: T.() -> Unit): Lazybones<T> =
+    addLifecycleObserver(On.PAUSE, receiver)
 
   /**
    * Returns a [Lazybones] and the receiver will be aware of [On.STOP] lifecycle state.
@@ -122,7 +126,7 @@ class Lazybones<out T : Any> constructor(
    */
   @JvmSynthetic
   @LazybonesWithNoInlines
-  fun onStop(receiver: T.() -> Unit) = addLifecycleObserver(On.STOP, receiver)
+  public fun onStop(receiver: T.() -> Unit): Lazybones<T> = addLifecycleObserver(On.STOP, receiver)
 
   /**
    * Returns a [Lazybones] and the receiver will be aware of [On.DESTROY] lifecycle state.
@@ -131,17 +135,8 @@ class Lazybones<out T : Any> constructor(
    */
   @JvmSynthetic
   @LazybonesWithNoInlines
-  fun onDestroy(receiver: T.() -> Unit) = addLifecycleObserver(On.DESTROY, receiver)
-
-  /**
-   * Returns a [Lazybones] and the receiver will be aware of [On.ANY] lifecycle state.
-   * This expression will execute the [receiver] on every lifecycle state.
-   *
-   * @param receiver A receiver that will be executed based on the every lifecycle lazily.
-   */
-  @JvmSynthetic
-  @LazybonesWithNoInlines
-  fun onAny(receiver: T.() -> Unit) = addLifecycleObserver(On.ANY, receiver)
+  public fun onDestroy(receiver: T.() -> Unit): Lazybones<T> =
+    addLifecycleObserver(On.DESTROY, receiver)
 
   /**
    * Adds a lifecycle observer based on [On] lifecycle state internally.
@@ -158,12 +153,12 @@ class Lazybones<out T : Any> constructor(
 
   /** initializes the lifecycle-aware property lazily. */
   @LazybonesWithNoInlines
-  fun lazy() = this.lazy
+  public fun lazy(): Lazy<T> = this.lazy
 
   /** gets property value from the lazy class. */
-  fun value() = this.lazy.value
+  public fun value(): T = this.lazy.value
 
-  override fun toString() = "Lazybones(" +
+  override fun toString(): String = "Lazybones(" +
     "lifecycleOwner=$lifecycleOwner," +
     "lazy=$lazy" +
     ")"

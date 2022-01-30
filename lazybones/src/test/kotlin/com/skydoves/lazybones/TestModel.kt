@@ -16,15 +16,7 @@
 
 package com.skydoves.lazybones
 
-import androidx.fragment.app.FragmentActivity
-
-class UnitTestActivity : FragmentActivity() {
-  val testModel by lifecycleAware { TestModel() }
-    .onCreate { number = 15 }
-    .onStart { number = 20 }
-    .onResume { number = 25 }
-    .onStop { number = 30 }
-    .onPause { number = 35 }
-    .onDestroy { number = 40 }
-    .lazy()
-}
+internal data class TestModel(
+  var tag: String = "skydoves",
+  var number: Int = 10
+)

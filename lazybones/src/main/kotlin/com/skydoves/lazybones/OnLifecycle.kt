@@ -22,14 +22,13 @@ package com.skydoves.lazybones
 /**
  * Defines states for representing Android lifecycle for creating lifecycle-aware properties.
  */
-enum class On {
+public enum class On {
   CREATE,
   START,
   RESUME,
   PAUSE,
   STOP,
-  DESTROY,
-  ANY
+  DESTROY
 }
 
 /** gets an [OnLifecycleObserver] from a instance of [On]. */
@@ -41,7 +40,6 @@ internal fun <T : Any> On.getOnLifecycleObserver(): OnLifecycleObserver<T> {
     On.PAUSE -> OnPauseObserver()
     On.STOP -> OnStopObserver()
     On.DESTROY -> OnDestroyObserver()
-    On.ANY -> OnAnyObserver()
   }
 }
 
@@ -54,6 +52,5 @@ internal fun <T : Any> On.getOnLifecyclePropertyObserver(value: T): OnLifecycleP
     On.PAUSE -> OnPausePropertyObserver(value)
     On.STOP -> OnStopPropertyObserver(value)
     On.DESTROY -> OnDestroyPropertyObserver(value)
-    On.ANY -> OnAnyPropertyObserver(value)
   }
 }

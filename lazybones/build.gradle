@@ -5,6 +5,7 @@ apply from: "$rootDir/dependencies.gradle"
 
 android {
   compileSdkVersion versions.compileSdk
+
   defaultConfig {
     minSdkVersion versions.minSdk
     targetSdkVersion versions.compileSdk
@@ -12,29 +13,28 @@ android {
     versionName versions.versionName
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
+
   testOptions {
     unitTests {
       includeAndroidResources = true
     }
   }
+
   buildFeatures {
     buildConfig false
   }
 }
 
-kotlin {
-  explicitApi()
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+  kotlinOptions.freeCompilerArgs += ["-Xexplicit-api=strict"]
 }
 
 dependencies {
   implementation "androidx.appcompat:appcompat:$versions.androidxAppcompat"
   implementation "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle"
-  api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutinesVersion"
 
   testImplementation "junit:junit:$versions.junit"
-  testImplementation "org.mockito:mockito-core:$versions.mockito"
   testImplementation "org.robolectric:robolectric:$versions.robolectric"
-  testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 }
 
 apply plugin: "com.vanniktech.maven.publish"

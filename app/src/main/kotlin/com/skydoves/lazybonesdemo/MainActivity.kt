@@ -21,6 +21,7 @@ package com.skydoves.lazybonesdemo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.showAlignTop
 import com.skydoves.lazybones.lifecycleAware
 import com.skydoves.lazybonesdemo.databinding.ActivityMainBinding
 
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
   private val mainViewModel = MainViewModel(this)
 
   private val balloon: Balloon by lifecycleAware { BalloonUtils.getProfileBalloon(baseContext) }
-    .onCreate { showAlignTop(binding.button) }
+    .onCreate { binding.button.showAlignTop(this) }
     .onDestroy { dismiss() }
     .lazy()
 

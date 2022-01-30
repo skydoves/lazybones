@@ -20,54 +20,53 @@
 
 package com.skydoves.lazybones
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 
 /** A lifecycle observer for performing receiver after the lifecycle state is [On.CREATE]. */
 internal class OnCreateObserver<T : Any> : OnLifecycleObserver<T>() {
-  @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-  fun onCreate() = super.initialize()
+  override fun onCreate(owner: LifecycleOwner) {
+    super.initialize()
+  }
 }
 
 /** A lifecycle observer for performing receiver after the lifecycle state is [On.START]. */
 internal class OnStartObserver<T : Any> : OnLifecycleObserver<T>() {
-  @OnLifecycleEvent(Lifecycle.Event.ON_START)
-  fun onStart() = super.initialize()
+  override fun onStart(owner: LifecycleOwner) {
+    super.initialize()
+  }
 }
 
 /** A lifecycle observer for performing receiver after the lifecycle state is [On.RESUME]. */
 internal class OnResumeObserver<T : Any> : OnLifecycleObserver<T>() {
-  @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-  fun onResume() = super.initialize()
+  override fun onResume(owner: LifecycleOwner) {
+    super.initialize()
+  }
 }
 
 /** A lifecycle observer for performing receiver before the lifecycle state is [On.PAUSE]. */
 internal class OnPauseObserver<T : Any> : OnLifecycleObserver<T>() {
-  @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-  fun onPause() = super.initialize()
+  override fun onPause(owner: LifecycleOwner) {
+    super.initialize()
+  }
 }
 
 /** A lifecycle observer for performing receiver before the lifecycle state is [On.STOP]. */
 internal class OnStopObserver<T : Any> : OnLifecycleObserver<T>() {
-  @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-  fun onStop() = super.initialize()
+  override fun onStop(owner: LifecycleOwner) {
+    super.initialize()
+  }
 }
 
 /** A lifecycle observer for performing receiver before the lifecycle state is [On.DESTROY]. */
 internal class OnDestroyObserver<T : Any> : OnLifecycleObserver<T>() {
-  @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-  fun onDestroy() = super.initialize()
-}
-
-/** A lifecycle observer for performing receiver based on the lifecycle state. */
-internal class OnAnyObserver<T : Any> : OnLifecycleObserver<T>() {
-  @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-  fun onAny() = super.initialize()
+  override fun onDestroy(owner: LifecycleOwner) {
+    super.initialize()
+  }
 }
 
 /** An abstract observer for delegating lazy and receiver. */
-internal abstract class OnLifecycleObserver<T : Any> : LifecycleObserver {
+internal abstract class OnLifecycleObserver<T : Any> : DefaultLifecycleObserver {
 
   private lateinit var lazy: Lazy<T>
   private lateinit var receiver: (T.() -> Unit)

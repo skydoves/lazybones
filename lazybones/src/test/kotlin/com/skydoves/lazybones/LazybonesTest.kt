@@ -27,7 +27,7 @@ import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [21])
-class LazybonesTest {
+internal class LazybonesTest {
 
   @Test
   fun lifecycleAwarePropertyTest() {
