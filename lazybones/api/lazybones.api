@@ -1,0 +1,54 @@
+public final class com/skydoves/lazybones/Lazybones : java/io/Serializable {
+	public fun <init> (Landroidx/lifecycle/LifecycleOwner;Lkotlin/Lazy;)V
+	public final fun lazy ()Lkotlin/Lazy;
+	public final synthetic fun onCreate (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/Lazybones;
+	public final synthetic fun onDestroy (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/Lazybones;
+	public final synthetic fun onPause (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/Lazybones;
+	public final synthetic fun onResume (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/Lazybones;
+	public final synthetic fun onStart (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/Lazybones;
+	public final synthetic fun onStop (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/Lazybones;
+	public fun toString ()Ljava/lang/String;
+	public final fun value ()Ljava/lang/Object;
+}
+
+public final class com/skydoves/lazybones/LifecycleAwareProperty {
+	public fun <init> (Landroidx/lifecycle/LifecycleOwner;Ljava/lang/Object;)V
+	public final fun getLifecycleOwner ()Landroidx/lifecycle/LifecycleOwner;
+	public final fun getValue ()Ljava/lang/Object;
+	public final synthetic fun observeOn (Lcom/skydoves/lazybones/On;Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/LifecycleAwareProperty;
+	public final synthetic fun observeOnCreate (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/LifecycleAwareProperty;
+	public final synthetic fun observeOnDestroy (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/LifecycleAwareProperty;
+	public final synthetic fun observeOnPause (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/LifecycleAwareProperty;
+	public final synthetic fun observeOnResume (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/LifecycleAwareProperty;
+	public final synthetic fun observeOnStart (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/LifecycleAwareProperty;
+	public final synthetic fun observeOnStop (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/LifecycleAwareProperty;
+	public final fun setValue (Ljava/lang/Object;)V
+}
+
+public final class com/skydoves/lazybones/LifecycleAwareProperty$Builder {
+	public fun <init> (Landroidx/lifecycle/LifecycleOwner;Ljava/lang/Object;)V
+	public final fun build ()Lcom/skydoves/lazybones/LifecycleAwareProperty;
+	public final synthetic fun on (Lcom/skydoves/lazybones/On;Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/LifecycleAwareProperty$Builder;
+	public final synthetic fun onCreate (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/LifecycleAwareProperty$Builder;
+	public final synthetic fun onDestroy (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/LifecycleAwareProperty$Builder;
+	public final synthetic fun onPause (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/LifecycleAwareProperty$Builder;
+	public final synthetic fun onResume (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/LifecycleAwareProperty$Builder;
+	public final synthetic fun onStart (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/LifecycleAwareProperty$Builder;
+	public final synthetic fun onStop (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/LifecycleAwareProperty$Builder;
+}
+
+public final class com/skydoves/lazybones/LifecycleAwarePropertyKt {
+	public static final synthetic fun observe (Lcom/skydoves/lazybones/LifecycleAwareProperty;Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/LifecycleAwareProperty;
+}
+
+public final class com/skydoves/lazybones/On : java/lang/Enum {
+	public static final field CREATE Lcom/skydoves/lazybones/On;
+	public static final field DESTROY Lcom/skydoves/lazybones/On;
+	public static final field PAUSE Lcom/skydoves/lazybones/On;
+	public static final field RESUME Lcom/skydoves/lazybones/On;
+	public static final field START Lcom/skydoves/lazybones/On;
+	public static final field STOP Lcom/skydoves/lazybones/On;
+	public static fun valueOf (Ljava/lang/String;)Lcom/skydoves/lazybones/On;
+	public static fun values ()[Lcom/skydoves/lazybones/On;
+}
+

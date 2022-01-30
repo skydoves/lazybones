@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'binary-compatibility-validator'
 
 apply from: "$rootDir/dependencies.gradle"
 
@@ -26,9 +25,12 @@ android {
 }
 
 dependencies {
-  implementation "androidx.appcompat:appcompat:$versions.androidxAppcompat"
-  implementation "com.github.skydoves:balloon:$versions.balloon"
   implementation project(":lazybones")
+  implementation project(":lazybones-viewmodel")
+
+  implementation "androidx.appcompat:appcompat:$versions.androidxAppcompat"
+  implementation "androidx.fragment:fragment-ktx:$versions.fragmentVersion"
+  implementation "com.github.skydoves:balloon:$versions.balloon"
 }
 
 apply from: '../spotless.gradle'

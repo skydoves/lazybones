@@ -17,27 +17,17 @@
 package com.skydoves.lazybonesdemo
 
 import android.util.Log
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
-import com.skydoves.lazybones.On
 import com.skydoves.lazybones.lifecycleAware
+import com.skydoves.lazybones.viewmodel.viewModelLifecycleOwner
 
-class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel() {
+class SecondViewModel : ViewModel() {
 
-  private val lifecycleAwareProperty = lifecycleOwner.lifecycleAware(Rabbit())
-
-  init {
-    this.lifecycleAwareProperty
-      .observeOnCreate { Log.d(TAG, "OnCreate: $this") }
-      .observeOnStart { Log.d(TAG, "OnStart: $this") }
-      .observeOnResume { Log.d(TAG, "OnResume: $this") }
-      .observeOnPause { Log.d(TAG, "OnPause: $this") }
-      .observeOnStop { Log.d(TAG, "OnStop: $this") }
-      .observeOnDestroy { Log.d(TAG, "OnDestroy: $this") }
-      .observeOn(On.CREATE) { }
-  }
+  private val vmLifecycle = viewModelLifecycleOwner.lifecycleAware { }
+    .onCreate { Log.d(TAG, "viewModel created") }
+    .onDestroy { Log.d(TAG, "viewModel cleared") }
 
   companion object {
-    private val TAG = MainViewModel::class.java.simpleName
+    private val TAG = SecondViewModel::class.java.simpleName
   }
 }
