@@ -23,5 +23,6 @@ ext.versions = [
 
     // for demo
     fragmentVersion  : '1.4.0',
-    balloon          : '1.4.1'
+    balloon          : '1.4.1',
+    rxKotlin         : '3.0.1'
 ]

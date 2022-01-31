@@ -61,7 +61,7 @@ public inline fun <reified T : Any> LifecycleOwner.lifecycleAware(
  *
  * [Lazybones] is a wrapper class that initializes [Lazy] property based on the lifecycle.
  *
- * @property lifecycleOwner A class that has an Android lifecycle for obesrving the lifecycle events.
+ * @property lifecycleOwner A class that has an Android lifecycle for observing the lifecycle events.
  * @property lazy A lazy initialization for initializing the value [T] lazily.
  */
 public class Lazybones<out T : Any> constructor(

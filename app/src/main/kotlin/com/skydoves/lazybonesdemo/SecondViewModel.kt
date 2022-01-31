@@ -18,14 +18,18 @@ package com.skydoves.lazybonesdemo
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.skydoves.lazybones.lifecycleAware
-import com.skydoves.lazybones.viewmodel.viewModelLifecycleOwner
+import com.skydoves.lazybones.viewmodel.lifecycleAware
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class SecondViewModel : ViewModel() {
 
-  private val vmLifecycle = viewModelLifecycleOwner.lifecycleAware { }
-    .onCreate { Log.d(TAG, "viewModel created") }
-    .onDestroy { Log.d(TAG, "viewModel cleared") }
+  private val viewModelLifecycleAware = lifecycleAware { CompositeDisposable() }
+    .onInitialize {
+      Log.d(TAG, "viewModel is initialized")
+    }.onClear {
+      Log.d(TAG, "viewModel is cleared")
+      dispose() // dispose CompositeDisposable when viewModel is getting cleared
+    }
 
   companion object {
     private val TAG = SecondViewModel::class.java.simpleName

@@ -72,8 +72,9 @@ constructor(private val value: T) : OnLifecyclePropertyObserver<T>(value) {
 }
 
 /** An abstract observer for delegating lazy and receiver. */
-internal abstract class OnLifecyclePropertyObserver<T : Any>
-constructor(private val value: T) : DefaultLifecycleObserver {
+internal abstract class OnLifecyclePropertyObserver<T : Any> constructor(
+  private val value: T
+) : DefaultLifecycleObserver {
 
   lateinit var propertyObserver: LifecycleAwarePropertyObserver<T>
 
