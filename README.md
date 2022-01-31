@@ -10,7 +10,8 @@
 </p>
 
 <p align="center">
-😴 Lazy and fluent syntactic sugar of Kotlin for initializing Android lifecycle-aware property.
+😴 A lazy and fluent syntactic sugar for Android and ViewModel Lifecycle properties. <br>
+Lazybones allows you to track and observe Activity, Fragment, and ViewModel lifecycles on lifecycle-awrare properties.
 </p>
 
 <p align="center">
@@ -33,25 +34,29 @@ allprojects {
 }
 ```
 
-And add the dependency below to your **module**'s `build.gradle` file.
+Next, add the dependency below to your **module**'s `build.gradle` file.
 
 ```gradle
 dependencies {
-    implementation "com.github.skydoves:lazybones:1.0.2"
+    implementation "com.github.skydoves:lazybones:1.0.3"
 }
 ```
 ## SNAPSHOT 
 [![Lazybones](https://img.shields.io/static/v1?label=snapshot&message=lazybones&logo=apache%20maven&color=C71A36)](https://oss.sonatype.org/content/repositories/snapshots/com/github/skydoves/lazybones/) <br>
 Snapshots of the current development version of Lazybones are available, which track [the latest versions](https://oss.sonatype.org/content/repositories/snapshots/com/github/skydoves/lazybones/).
-```Gradle
+
+```gradle
 repositories {
    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 }
 ```
 
-## Usage
-### lifecycleAware
-You can initialize a lifecycle-aware object lazily with the `lifecycleAware` extension. The `lifecycleAware` can be used to register & unregister listeners, initailize & clear, show & dismiss, and dispose objects following the lifecycle changes of the `lifecycleOwner`. With the `by` keyword and `lazy()` methhod, you can initialize an object lazily as the following example:
+# Usage
+
+Lazybones provides `lifecycleAware` extension functions over the `LifecycleOwner`, which allows you to track and observe lifecycle changes on the same changing scope. Therefore, Lazybones can prevent function fragmentation as the lifecycle changes.
+
+## lifecycleAware
+You can initialize a lifecycle-aware object with the `lifecycleAware` extension. The `lifecycleAware` can be used to register/unregister listeners, initailize/clear, show/dismiss, and dispose objects following the lifecycle changes of the `lifecycleOwner`. With the `by` keyword and `lazy()` methhod, you can initialize an object lazily as the following example:
 
 ```kotlin
 val myDialog: Dialog by lifecycleAware { getDarkThemeDialog(baseContext) }
@@ -60,7 +65,7 @@ val myDialog: Dialog by lifecycleAware { getDarkThemeDialog(baseContext) }
     .lazy() // initlize the dialog lazily.
 ```
 
-In the `onCreate` and `onDestroy` lambda functions, you can omit the `this` keyword. In the following example, the `MediaPlayer` will be initialized and the `start()` will be executed on the `onCreate` state of the lifecycle. The `pause()`, `stop()`, and `release()` methods will be executed following the next lifecycle state.
+In the `onCreate` and `onDestroy` lambda scope, you can omit the `this` keyword. As you can see the following example, the `MediaPlayer` will be initialized and the `start()` will be executed on the `onCreate` state of the lifecycle. The `pause()`, `stop()`, and `release()` methods will be executed along the next lifecycle state.
 
 ```kotlin
 private val mediaPlayer: MediaPlayer by lifecycleAware {
@@ -111,7 +116,7 @@ override fun onDestroy() {
 }
 ```
 
-#### CompositeDisposable in RxJava2
+### CompositeDisposable in RxJava2
 
 You can utilize Lazybones with RxJava as the following example:
 
@@ -123,7 +128,7 @@ val compositeDisposable by lifecycleAware { CompositeDisposable() }
 
 As the above example, you can initialize and dispose of `CompositeDisposable` on the same method chain of the `lifecycleAware` extension.
 
-#### Lifecycle Relevant Extensions
+### LifecycleAware Extensions
 
 We can execute lambda functions following lifecycle changes and here are lifecycle relevant methods for the `lifecycleAware` extension.
 
@@ -137,9 +142,9 @@ We can execute lambda functions following lifecycle changes and here are lifecyc
 .on(On.Create) { } // we can set the lifecycle state manually as an attribute.
 ```
 
-#### Usages in the non-lifecycle owner class
+### LifecycleAware in Normal Classes
 
-The `lifecycleAware` is an extension of the `lifecycleOwner`, so you can use it on the `LifecycleOwner` instance as the following:
+The `lifecycleAware` is an extension of the `lifecycleOwner`, so you can use it on a `LifecycleOwner` instance as the following:
 
 ```kotlin
 class SomeClass(lifecycleOwner: LifecycleOwner) {
@@ -151,9 +156,9 @@ class SomeClass(lifecycleOwner: LifecycleOwner) {
    ...
 ```
 
-### Initialize Immediately with LifecycleAware
+## LifecycleAwareProperty
 
-We can also initialize the lifecycle-aware property with the following example:
+You can also initialize the `lifecycleAware` property immediately with the following example:
 
 ```kotlin
 private val lifecycleAwareProperty = lifecycleAware(CompositeDisposable())
@@ -174,12 +179,16 @@ You can observe the lifecycle changes with `observe_` methods.<br>
 class MainActivity : AppCompatActivity() {
 
   private val lifecycleAwareProperty = lifecycleAware(DialogUtil.getDarkTheme())
-    .observeOnCreate { show() }
-    .observeOnDestroy { dismiss() }
-    .observeOnAny { .. }
-    .observeOn(On.CREATE) { .. }
 
-    ...
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(binding.root)
+
+    lifecycleAwareProperty
+      .observeOnCreate { show() }
+      .observeOnDestroy { dismiss() }
+      .observeOnAny { .. }
+      .observeOn(On.CREATE) { .. }
 ```
 
 You can initialize them with the Kotlin DSL way as the following:
@@ -194,7 +203,7 @@ private val lifecycleAwareProperty = lifecycleAware(getDarkThemeDialog())
 
 ```
 
-#### Usages in the non-lifecycle owner class
+### LifecycleAware for normal classes
 
 The `lifecycleAware` is an extension of the `lifecycleOwner`, so you can use it on the `LifecycleOwner` instance as the following:
 
@@ -216,6 +225,76 @@ class SomeClass(lifecycleOwner: LifecycleOwner) {
       .observeOn(On.CREATE) { }
   }
   ...
+```
+
+## Lazybones for ViewModel
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.skydoves/lazybones.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.skydoves%22%20AND%20a:%22lazybones%22)
+
+Lazybones supports `lifecycleAware` for Jetpack ViewModel to track and observe the lifecycle changes of the ViewModel. Basically `Lazybones-ViewModel` allows you to observe two lifecycle changes: **Initialize** and **Clear**. First, add the dependency below to your **module's** `build.gradle` file:
+
+```gradle
+dependencies {
+    implementation "com.github.skydoves:lazybones-viewmodel:1.0.3"
+}
+```
+
+### LifecycleAware on ViewModel
+
+You can use the `lifecycleAwrare` extension function on your ViewModel and observe lifecycle changes as the following example:
+
+```kotlin
+class MyViewModel : ViewModel() {
+
+  private val lifecycleAwareCompositeDisposable = lifecycleAware { CompositeDisposable() }
+    .onInitialize {
+      Log.d(TAG, "ViewModel is initialized")
+    }.onClear {
+      Log.d(TAG, "ViewModel is cleared")
+      dispose() // dispose CompositeDisposable when viewModel is getting cleared
+    }
+}
+```
+
+You can get the value of the `lifecycleAware` with `value()` method as the following:
+
+```kotlin
+val compositeDisposable = lifecycleAwareCompositeDisposable.value()
+compositeDisposable.add(disposable)
+```
+
+The example above shows you to initialize `CompositeDisposable` and observe the ViewModel's lifecycle changes. The `CompositeDisposable` will be disposed when ViewModel will be cleared such as `onCleared` is called.
+
+### Lazy LifecycleAware on ViewModel
+
+You can initialize `lifecycleAware` lazyily with the `by` keyword and `lazy()` function as the following:
+
+```kotlin
+class MyViewModel : ViewModel() {
+
+  private val compositeDisposable: CompositeDisposable by lifecycleAware { CompositeDisposable() }
+    .onInitialize {
+      Log.d(TAG, "viewModel is initialized")
+    }.onClear {
+      Log.d(TAG, "viewModel is cleared")
+      dispose() // dispose CompositeDisposable when viewModel is getting cleared
+    }.lazy()
+}
+```
+
+## LifecycleAwareProperty on ViewModel
+
+You can also initialize the `lifecycleAware` property immediately and observe the lifecycle changes as the following example:
+
+```kotlin
+val lifecycleAwareDisposable = lifecycleAware(CompositeDisposable())
+
+init {
+  lifecycleAwareDisposable
+    .observeOnInitialize {  }
+    .observeOnClear {  }
+    .observeOn(OnViewModel.CLEAR) { .. }
+}
 ```
 
 ## Find this library useful? :heart:

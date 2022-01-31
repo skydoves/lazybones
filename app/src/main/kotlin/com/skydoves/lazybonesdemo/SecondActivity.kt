@@ -19,6 +19,7 @@ package com.skydoves.lazybonesdemo
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import io.reactivex.rxjava3.core.Observable
 
 /**
  * Developed by skydoves on 2022-01-30.
@@ -31,6 +32,8 @@ class SecondActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    mainViewModel
+    val disposable = Observable.just("observable").subscribe { }
+
+    mainViewModel.compositeDisposable.add(disposable)
   }
 }

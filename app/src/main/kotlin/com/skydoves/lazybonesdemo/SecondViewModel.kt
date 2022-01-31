@@ -23,13 +23,13 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class SecondViewModel : ViewModel() {
 
-  private val viewModelLifecycleAware = lifecycleAware { CompositeDisposable() }
+  val compositeDisposable: CompositeDisposable by lifecycleAware { CompositeDisposable() }
     .onInitialize {
       Log.d(TAG, "viewModel is initialized")
     }.onClear {
       Log.d(TAG, "viewModel is cleared")
       dispose() // dispose CompositeDisposable when viewModel is getting cleared
-    }
+    }.lazy()
 
   companion object {
     private val TAG = SecondViewModel::class.java.simpleName
