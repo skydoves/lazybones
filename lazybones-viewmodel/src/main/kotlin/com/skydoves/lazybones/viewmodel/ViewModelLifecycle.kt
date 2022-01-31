@@ -24,6 +24,8 @@ import java.io.Closeable
 private const val JOB_KEY = "androidx.lifecycle.ViewModelLifecycle.JOB_KEY"
 
 /**
+ * @author skydoves (Jaewoong Eum)
+ *
  * [ViewModelLifecycleOwner] tied to this [ViewModel]. The lifecycle owner will be destroyed
  * when ViewModel will be cleared, i.e [ViewModel.onCleared] is called.
  */
@@ -50,6 +52,8 @@ public val ViewModel.viewModelLifecycleOwner: ViewModelLifecycleOwner
   }
 
 /**
+ * @author skydoves (Jaewoong Eum)
+ *
  * CloseableViewModelLifecycleOwner represents the lifecycle of a [ViewModel], and implements
  * [Closeable] and [ViewModelLifecycleOwner].
  */

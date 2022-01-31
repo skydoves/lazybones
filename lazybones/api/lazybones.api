@@ -41,6 +41,10 @@ public final class com/skydoves/lazybones/LifecycleAwarePropertyKt {
 	public static final synthetic fun observe (Lcom/skydoves/lazybones/LifecycleAwareProperty;Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/LifecycleAwareProperty;
 }
 
+public abstract interface class com/skydoves/lazybones/LifecycleAwarePropertyObserver {
+	public abstract fun onChanged (Ljava/lang/Object;)V
+}
+
 public final class com/skydoves/lazybones/On : java/lang/Enum {
 	public static final field CREATE Lcom/skydoves/lazybones/On;
 	public static final field DESTROY Lcom/skydoves/lazybones/On;

@@ -1,3 +1,41 @@
+public final class com/skydoves/lazybones/viewmodel/LazybonesViewModel : java/io/Serializable {
+	public fun <init> (Lcom/skydoves/lazybones/viewmodel/ViewModelLifecycleOwner;Lkotlin/Lazy;)V
+	public final fun lazy ()Lkotlin/Lazy;
+	public final synthetic fun onClear (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/viewmodel/LazybonesViewModel;
+	public final synthetic fun onInitialize (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/viewmodel/LazybonesViewModel;
+	public fun toString ()Ljava/lang/String;
+	public final fun value ()Ljava/lang/Object;
+}
+
+public final class com/skydoves/lazybones/viewmodel/OnViewModel : java/lang/Enum {
+	public static final field CLEAR Lcom/skydoves/lazybones/viewmodel/OnViewModel;
+	public static final field INITIALIZE Lcom/skydoves/lazybones/viewmodel/OnViewModel;
+	public static fun valueOf (Ljava/lang/String;)Lcom/skydoves/lazybones/viewmodel/OnViewModel;
+	public static fun values ()[Lcom/skydoves/lazybones/viewmodel/OnViewModel;
+}
+
+public final class com/skydoves/lazybones/viewmodel/VieModelLifecycleAwarePropertyKt {
+	public static final synthetic fun observe (Lcom/skydoves/lazybones/viewmodel/ViewModelLifecycleAwareProperty;Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/viewmodel/ViewModelLifecycleAwareProperty;
+}
+
+public final class com/skydoves/lazybones/viewmodel/ViewModelLifecycleAwareProperty {
+	public fun <init> (Lcom/skydoves/lazybones/viewmodel/ViewModelLifecycleOwner;Ljava/lang/Object;)V
+	public final fun getValue ()Ljava/lang/Object;
+	public final fun getViewModelLifecycleOwner ()Lcom/skydoves/lazybones/viewmodel/ViewModelLifecycleOwner;
+	public final synthetic fun observeOn (Lcom/skydoves/lazybones/viewmodel/OnViewModel;Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/viewmodel/ViewModelLifecycleAwareProperty;
+	public final synthetic fun observeOnClear (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/viewmodel/ViewModelLifecycleAwareProperty;
+	public final synthetic fun observeOnInitialize (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/viewmodel/ViewModelLifecycleAwareProperty;
+	public final fun setValue (Ljava/lang/Object;)V
+}
+
+public final class com/skydoves/lazybones/viewmodel/ViewModelLifecycleAwareProperty$Builder {
+	public fun <init> (Lcom/skydoves/lazybones/viewmodel/ViewModelLifecycleOwner;Ljava/lang/Object;)V
+	public final fun build ()Lcom/skydoves/lazybones/viewmodel/ViewModelLifecycleAwareProperty;
+	public final synthetic fun on (Lcom/skydoves/lazybones/viewmodel/OnViewModel;Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/viewmodel/ViewModelLifecycleAwareProperty$Builder;
+	public final synthetic fun onClear (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/viewmodel/ViewModelLifecycleAwareProperty$Builder;
+	public final synthetic fun onInitialize (Lkotlin/jvm/functions/Function1;)Lcom/skydoves/lazybones/viewmodel/ViewModelLifecycleAwareProperty$Builder;
+}
+
 public final class com/skydoves/lazybones/viewmodel/ViewModelLifecycleKt {
 	public static final fun getViewModelLifecycleOwner (Landroidx/lifecycle/ViewModel;)Lcom/skydoves/lazybones/viewmodel/ViewModelLifecycleOwner;
 }

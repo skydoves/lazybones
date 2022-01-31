@@ -16,12 +16,11 @@
 
 package com.skydoves.lazybones.viewmodel
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModel
-
-/**
- * @author skydoves (Jaewoong Eum)
- *
- * ViewModelLifecycleOwner is a lifecycle owner tied to a [ViewModel].
- */
-public interface ViewModelLifecycleOwner : LifecycleOwner
+/** specifies that this function should not be called directly without inlining. */
+@Target(
+  AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY,
+  AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER
+)
+@DslMarker
+@Retention(AnnotationRetention.BINARY)
+internal annotation class LazybonesViewModelWithNoInlines

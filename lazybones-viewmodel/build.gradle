@@ -25,6 +25,8 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 }
 
 dependencies {
+  api project(":lazybones")
+
   implementation "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin"
   implementation "androidx.appcompat:appcompat:$versions.androidxAppcompat"
 }
