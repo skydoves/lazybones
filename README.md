@@ -11,7 +11,7 @@
 
 <p align="center">
 😴 A lazy and fluent syntactic sugar for Android and ViewModel Lifecycle properties. <br>
-Lazybones allows you to track and observe Activity, Fragment, and ViewModel lifecycles on lifecycle-awrare properties.
+Lazybones allows you to track and observe Activity, Fragment, and ViewModel lifecycles on lifecycle-aware properties.
 </p>
 
 <p align="center">
