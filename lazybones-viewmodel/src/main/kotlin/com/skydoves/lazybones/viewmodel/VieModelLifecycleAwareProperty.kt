@@ -16,8 +16,6 @@
 
 package com.skydoves.lazybones.viewmodel
 
-import com.skydoves.lazybones.LifecycleAwareProperty
-
 /** creates a [ViewModelLifecycleAwareProperty] by [ViewModelLifecycleAwareProperty.Builder] using dsl. */
 @JvmSynthetic
 @LazybonesViewModelWithNoInlines
@@ -78,7 +76,7 @@ public class ViewModelLifecycleAwareProperty<T : Any> constructor(
     public fun on(
       onViewModel: OnViewModel,
       receiver: T.() -> Unit
-    ): ViewModelLifecycleAwareProperty.Builder<T> =
+    ): Builder<T> =
       apply {
         this.lifecycleAwareProperty.addLifecycleObserver(onViewModel, receiver)
       }
@@ -86,7 +84,7 @@ public class ViewModelLifecycleAwareProperty<T : Any> constructor(
     /** observes on the [OnViewModel.INITIALIZE] lifecycle state. */
     @JvmSynthetic
     @LazybonesViewModelWithNoInlines
-    public fun onInitialize(receiver: T.() -> Unit): ViewModelLifecycleAwareProperty.Builder<T> =
+    public fun onInitialize(receiver: T.() -> Unit): Builder<T> =
       apply {
         this.lifecycleAwareProperty.addLifecycleObserver(OnViewModel.INITIALIZE, receiver)
       }
@@ -94,12 +92,12 @@ public class ViewModelLifecycleAwareProperty<T : Any> constructor(
     /** observes on the [OnViewModel.CLEAR] lifecycle state. */
     @JvmSynthetic
     @LazybonesViewModelWithNoInlines
-    public fun onClear(receiver: T.() -> Unit): ViewModelLifecycleAwareProperty.Builder<T> =
+    public fun onClear(receiver: T.() -> Unit): Builder<T> =
       apply {
         this.lifecycleAwareProperty.addLifecycleObserver(OnViewModel.CLEAR, receiver)
       }
 
-    /** returns a new instance of [LifecycleAwareProperty]. */
+    /** returns a new instance of [ViewModelLifecycleAwareProperty]. */
     public fun build(): ViewModelLifecycleAwareProperty<T> = this.lifecycleAwareProperty
   }
 }

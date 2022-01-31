@@ -16,8 +16,6 @@
 
 package com.skydoves.lazybones.viewmodel
 
-import com.skydoves.lazybones.On
-
 /**
  * Defines states for representing ViewModel lifecycle for creating lifecycle-aware properties.
  */
@@ -34,7 +32,7 @@ internal fun <T : Any> OnViewModel.getOnLifecycleObserver(): OnViewModelLifecycl
   }
 }
 
-/** gets an [OnViewModelLifecyclePropertyObserver] from a instance of [On]. */
+/** gets an [OnViewModelLifecyclePropertyObserver] from a instance of [OnViewModel]. */
 internal fun <T : Any> OnViewModel.getOnLifecyclePropertyObserver(value: T): OnViewModelLifecyclePropertyObserver<T> {
   return when (this) {
     OnViewModel.INITIALIZE -> OnInitializePropertyObserver(value)
