@@ -25,6 +25,7 @@ public enum class OnViewModel {
 }
 
 /** gets an [OnViewModelLifecycleObserver] from a instance of [OnViewModel]. */
+@JvmSynthetic
 internal fun <T : Any> OnViewModel.getOnLifecycleObserver(): OnViewModelLifecycleObserver<T> {
   return when (this) {
     OnViewModel.INITIALIZE -> OnInitializeObserver()
@@ -33,6 +34,7 @@ internal fun <T : Any> OnViewModel.getOnLifecycleObserver(): OnViewModelLifecycl
 }
 
 /** gets an [OnViewModelLifecyclePropertyObserver] from a instance of [OnViewModel]. */
+@JvmSynthetic
 internal fun <T : Any> OnViewModel.getOnLifecyclePropertyObserver(value: T): OnViewModelLifecyclePropertyObserver<T> {
   return when (this) {
     OnViewModel.INITIALIZE -> OnInitializePropertyObserver(value)

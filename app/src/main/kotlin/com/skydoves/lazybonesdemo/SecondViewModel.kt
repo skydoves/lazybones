@@ -31,6 +31,10 @@ class SecondViewModel : ViewModel() {
       dispose() // dispose CompositeDisposable when viewModel is getting cleared
     }.lazy()
 
+  init {
+    Log.d(TAG, "init $TAG")
+  }
+
   companion object {
     private val TAG = SecondViewModel::class.java.simpleName
   }

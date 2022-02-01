@@ -32,6 +32,7 @@ public enum class On {
 }
 
 /** gets an [OnLifecycleObserver] from a instance of [On]. */
+@JvmSynthetic
 internal fun <T : Any> On.getOnLifecycleObserver(): OnLifecycleObserver<T> {
   return when (this) {
     On.CREATE -> OnCreateObserver()
@@ -44,6 +45,7 @@ internal fun <T : Any> On.getOnLifecycleObserver(): OnLifecycleObserver<T> {
 }
 
 /** gets an [OnLifecyclePropertyObserver] from a instance of [On]. */
+@JvmSynthetic
 internal fun <T : Any> On.getOnLifecyclePropertyObserver(value: T): OnLifecyclePropertyObserver<T> {
   return when (this) {
     On.CREATE -> OnCreatePropertyObserver(value)
