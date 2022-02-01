@@ -229,9 +229,15 @@ class SomeClass(lifecycleOwner: LifecycleOwner) {
 
 ## Lazybones for ViewModel
 
+![carbon](https://user-images.githubusercontent.com/24237865/151923496-547e6fab-0a67-42b4-94da-6b0a1ce9088a.png)
+
+Lazybones supports `lifecycleAware` for Jetpack ViewModel to track and observe the lifecycle changes of the ViewModel. Basically `Lazybones-ViewModel` allows you to observe two lifecycle changes: **Initialize** and **Clear**.
+
+### Gradle
+
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.skydoves/lazybones.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.skydoves%22%20AND%20a:%22lazybones%22)
 
-Lazybones supports `lifecycleAware` for Jetpack ViewModel to track and observe the lifecycle changes of the ViewModel. Basically `Lazybones-ViewModel` allows you to observe two lifecycle changes: **Initialize** and **Clear**. First, add the dependency below to your **module's** `build.gradle` file:
+Add the dependency below to your **module's** `build.gradle` file:
 
 ```gradle
 dependencies {
