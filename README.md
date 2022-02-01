@@ -38,7 +38,7 @@ Next, add the dependency below to your **module**'s `build.gradle` file.
 
 ```gradle
 dependencies {
-    implementation "com.github.skydoves:lazybones:1.0.3"
+    implementation "com.github.skydoves:lazybones:1.0.4"
 }
 ```
 ## SNAPSHOT 
@@ -235,7 +235,7 @@ Lazybones supports `lifecycleAware` for Jetpack ViewModel to track and observe t
 
 ```gradle
 dependencies {
-    implementation "com.github.skydoves:lazybones-viewmodel:1.0.3"
+    implementation "com.github.skydoves:lazybones-viewmodel:1.0.4"
 }
 ```
 
