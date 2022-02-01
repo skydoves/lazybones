@@ -13,6 +13,7 @@ android {
     targetSdkVersion versions.compileSdk
     versionCode versions.versionCode
     versionName versions.versionName
+    consumerProguardFiles "consumer-rules.pro"
   }
 
   buildFeatures {
