@@ -62,12 +62,10 @@ internal class CloseableViewModelLifecycleOwner : Closeable, ViewModelLifecycleO
   private val lifecycleRegistry: LifecycleRegistry = LifecycleRegistry(this)
 
   init {
-    lifecycleRegistry.currentState = Lifecycle.State.CREATED
     lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
   }
 
   override fun close() {
-    lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
     lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
   }
 
