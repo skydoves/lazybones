@@ -8,7 +8,7 @@ android {
 
   defaultConfig {
     applicationId "com.skydoves.lazybonesdemo"
-    minSdkVersion versions.demoMinSdk
+    minSdkVersion versions.minSdk
     targetSdkVersion versions.compileSdk
     versionCode versions.versionCode
     versionName versions.versionName

@@ -16,6 +16,8 @@
 
 package com.skydoves.lazybones.viewmodel
 
+import com.skydoves.viewmodel.lifecycle.ViewModelLifecycleOwner
+
 /** creates a [ViewModelLifecycleAwareProperty] by [ViewModelLifecycleAwareProperty.Builder] using dsl. */
 @JvmSynthetic
 @LazybonesViewModelWithNoInlines

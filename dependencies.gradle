@@ -1,28 +1,28 @@
 ext.versions = [
-    minSdk           : 15,
-    demoMinSdk       : 17,
-    compileSdk       : 31,
-    versionCode      : 5,
-    versionName      : '1.0.4',
+    minSdk            : 21,
+    compileSdk        : 31,
+    versionCode       : 5,
+    versionName       : '1.0.4',
 
-    gradleBuildTool  : '7.1.0',
-    spotlessGradle   : '6.1.0',
-    ktlintGradle     : '0.41.0',
-    dokkaGradle      : '1.6.10',
-    binaryValidator  : '0.8.0',
-    mavenPublish     : '0.18.0',
+    gradleBuildTool   : '7.1.0',
+    spotlessGradle    : '6.1.0',
+    ktlintGradle      : '0.41.0',
+    dokkaGradle       : '1.6.10',
+    binaryValidator   : '0.8.0',
+    mavenPublish      : '0.18.0',
 
-    kotlin           : '1.5.31',
-    androidxAppcompat: '1.4.1',
-    lifecycle        : '2.4.0',
+    kotlin            : '1.5.31',
+    androidxAppcompat : '1.4.1',
+    lifecycle         : '2.4.0',
+    viewmodelLifecycle: '1.1.0',
 
-    junit            : '4.13.1',
-    runner           : '1.2.0',
-    junitExt         : '1.1.1',
-    robolectric      : '4.4',
+    junit             : '4.13.1',
+    runner            : '1.2.0',
+    junitExt          : '1.1.1',
+    robolectric       : '4.4',
 
     // for demo
-    fragmentVersion  : '1.4.0',
-    balloon          : '1.4.1',
-    rxKotlin         : '3.0.1'
+    fragmentVersion   : '1.4.0',
+    balloon           : '1.4.1',
+    rxKotlin          : '3.0.1'
 ]

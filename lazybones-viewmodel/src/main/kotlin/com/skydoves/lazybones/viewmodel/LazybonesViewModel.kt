@@ -17,6 +17,8 @@
 package com.skydoves.lazybones.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.skydoves.viewmodel.lifecycle.ViewModelLifecycleOwner
+import com.skydoves.viewmodel.lifecycle.viewModelLifecycleOwner
 import java.io.Serializable
 
 /**
